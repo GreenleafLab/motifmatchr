@@ -1,0 +1,30 @@
+---
+title: "motifmatchr"
+author: "Alicia Schep"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{motifmatchr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Finding motif matches
+
+The match_pwms takes as inputs these motifs, or your own list of motifs, and returns a (Ranged)SummarizedExperiment with a matrix indicating what peaks (rows) contain what motifs (columns). 
+
+```{r, message = FALSE}
+library(motifmatchr)
+library(GenomicRanges)
+library(IRanges)
+
+data(example_motifs, package = "motifmatchr")
+peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
+                 ranges = IRanges(start = c(76585873,42772928,100183786),
+                                  width = 500))
+
+# get motif matches
+motif_ix <- match_pwms(example_motifs, peaks) 
+```
+
+match_pwms can accept as the second argument either a RangedSummarizedExperiment, GenomicRanges, DNAStringSet, or character vector.  If the argument is not a sequence object, then a genome argument is also required, which should be a BSgenome object -- the default is BSgenome.Hsapiens.UCSC.hg19.   

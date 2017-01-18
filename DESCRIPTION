@@ -1,0 +1,32 @@
+Package: motifmatchr
+Type: Package
+Title: Fast motif matching in R
+Version: 0.1.0
+Date: 2016-04-07
+Authors@R: c(
+  person("Alicia", "Schep", email = "aschep@stanford.edu", role = c("aut","cre")),
+  person("Pasi", "Rastas", role = c("aut","cph")),
+  person("Janne", "Korhonen", role = c("aut","cph")),
+  person("Petri", "Martinmaki", role = c("aut","cph")),
+  person("Stanford University", role = "cph"))
+Description: Find motif matches for many motifs and sequences. Wraps code from 
+    the MOODS C++ motif calling library, which was developed
+    by Pasi Rastas, Janne Korhonen, and Petri Martinmaki.
+License: GPL-3 + file LICENSE
+Imports:
+    Matrix,
+    Rcpp,
+    RcppArmadillo,
+    methods,
+    TFBSTools,
+    Biostrings,
+    BSgenome.Hsapiens.UCSC.hg19,
+    S4Vectors
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+LinkingTo: Rcpp, RcppArmadillo
+SystemRequirements: C++11
+RoxygenNote: 5.0.1
+VignetteBuilder: knitr
