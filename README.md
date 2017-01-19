@@ -1,10 +1,8 @@
-motifmatchr
-========
+# motifmatchr
 
 motifmatch is an R package for fast motif matching, using C++ code from the MOODS library. The MOODS library was developed by Pasi Rastas, Janne Korhonen, and Petri Martinmäki. The core C++ library from MOODs version MOODS 1.9.3 code has been included in this repository.   
 
-Installation
-------------
+## Installation
 
 Installation is easiest using the devtools package. The function `install_github` will install the package.
 
@@ -14,12 +12,27 @@ devtools::install_github("GreenleafLab/motifmatchr", auth_token = "my_token")
 
 The argument auth\_token takes in your github [personal access token](https://github.com/settings/tokens). This token is needed because at the moment this repository is private.
 
-A number of needed packages are installed in this process. Note that for functions that require a genome sequence, the package [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used as a default argument. If using another genome build, the appropraiate BSgenome object for your species should be passed to functions requiring a genome build (e.g. `match_pwms`).
+A number of needed packages are installed in this process. Depending on your repository settings, the Bioconductor dependencies may fail to install. Use `setRepositories(graphics=FALSE)` to see what repositories you have activated and to add the BioC software repository if need be.
 
-Depending on your repository settings, the Bioconductor dependencies may fail to install. Use `setRepositories(graphics=F)` to see what repositories you have activated and to add the BioC software repository if need be.
+## match_motifs
 
-Quickstart
--------------------
+The primary method of motifmatchr is `match_motifs`.  This method has two mandatory arguments:
+
+1) Position weight matrices or position frequency matrices, stored in the PWMatrix, PFMatrix, PWMatrixList, or PFMatrixList objects from the TFBSTools package
+
+2) Either a set of genomic ranges (GenomicRanges or RangedSummarizedExperiment object) or a set of sequences (either DNAStringSet, DNAString, or simple character vector)
+
+If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used. If using another genome build, the appropraiate BSgenome object for your species should be passed to the `genome` argument.
+
+This function can return three possible outputs, depending on the `out` argument:
+
+1) (Default, with `out = "matches"`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as "matches" in assays slot of SummarizedExperiment object
+
+2) (`out = "scores"`) Same as (1) plus two additional assays -- a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches.
+
+3) (`out = "positions"`) A GenomicRangesList with the ranges of all matches within the input ranges/sequences. 
+
+## Quickstart
 
 ```{r}
 library(motifmatchr)
@@ -34,8 +47,13 @@ peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
                                   width = 500))
 
 # Get motif matches for example motifs in peaks (using hg19 genome, the default)
-motif_ix <- match_pwms(example_motifs, peaks) 
+motif_ix <- match_motifs(example_motifs, peaks) 
+motif_matches(motif_ix) # Extract matches matrix from SummarizedExperiment result
 
 # Get motif positions within peaks for example motifs in peaks 
-motif_ix <- match_pwms(example_motifs, peaks, out = "positions") 
+motif_ix <- match_motifs(example_motifs, peaks, out = "positions") 
 ```
+
+## More information
+
+For more in depth documentation, see vignette.

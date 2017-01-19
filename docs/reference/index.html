@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -49,10 +49,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/motifmatchr.html">Vignette</a>
 </li>
 <li>
-  <a href="../articles/index.html">Articles</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       
@@ -74,28 +74,34 @@
     </div>
 
     <div class="contents">
-      <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-      <p class="section-desc"></p>
+      <h2 id="section-match-motifs" class="hasAnchor"><a href="#section-match-motifs" class="anchor"></a>match_motifs</h2>
+      <p class="section-desc"><p>Main function to match motifs</p></p>
 
       
-      <p><a href="match_pwms.html">match_pwms</a></p>
+      <p><a href="match_motifs.html">match_motifs</a></p>
       <ul>
-        <li><code><a href="match_pwms.html">match_pwms</a></code></li><li><code><a href="match_pwms.html">match_pwms,PFMatrix,ANY-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PFMatrixList,ANY-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PWMatrix,ANY-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PWMatrixList,DNAString-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PWMatrixList,DNAStringSet-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PWMatrixList,GenomicRanges-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PWMatrixList,RangedSummarizedExperiment-method</a></code></li><li><code><a href="match_pwms.html">match_pwms,PWMatrixList,character-method</a></code></li>
+        <li><code><a href="match_motifs.html">match_motifs</a></code></li><li><code><a href="match_motifs.html">match_motifs,PFMatrix,ANY-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PFMatrixList,ANY-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PWMatrix,ANY-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PWMatrixList,DNAString-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PWMatrixList,DNAStringSet-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PWMatrixList,GenomicRanges-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PWMatrixList,RangedSummarizedExperiment-method</a></code></li><li><code><a href="match_motifs.html">match_motifs,PWMatrixList,character-method</a></code></li>
+      </ul>
+          <h2 id="section-accessors" class="hasAnchor"><a href="#section-accessors" class="anchor"></a>Accessors</h2>
+      <p class="section-desc"><p>Accessor functions for results</p></p>
+
+      
+      <p><a href="motif_matches.html">motif_matches</a></p>
+      <ul>
+        <li><code><a href="motif_matches.html">motif_matches</a></code></li><li><code><a href="motif_matches.html">motif_matches,SummarizedExperiment-method</a></code></li><li><code><a href="motif_matches.html">motif_scores,SummarizedExperiment-method</a></code></li>
       </ul>
       
       <p><a href="motif_scores.html">motif_scores</a></p>
       <ul>
         <li><code><a href="motif_scores.html">motif_scores</a></code></li>
       </ul>
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+      <p class="section-desc"><p>Some sample motifs</p></p>
+
       
-      <p><a href="motifmatchr.html">motifmatchr</a></p>
+      <p><a href="example_motifs.html">example_motifs</a></p>
       <ul>
-        <li><code><a href="motifmatchr.html">motifmatchr</a></code></li><li><code><a href="motifmatchr.html">motifmatchr-package</a></code></li>
-      </ul>
-      
-      <p><a href="pwm_type.html">pwm_type</a></p>
-      <ul>
-        <li><code><a href="pwm_type.html">pwm_type</a></code></li>
+        <li><code><a href="example_motifs.html">example_motifs</a></code></li>
       </ul>
     
     </div>
@@ -104,14 +110,16 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-match-motifs">match_motifs</a></li>
+      <li><a href="#section-accessors">Accessors</a></li>
+      <li><a href="#section-data">Data</a></li>
     </ul>
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Alicia Schep, Pasi Rastas, Janne Korhonen, Petri Martinmaki.</p>
+  <p>Developed by Alicia Schep.</p>
 </div>
 
 <div class="pkgdown">

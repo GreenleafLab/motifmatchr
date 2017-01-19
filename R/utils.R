@@ -39,6 +39,24 @@ convert_pwms <- function(pwms, bg_freqs) {
   lapply(pwms, convert_pwm, bg_freqs)
 }
 
+
+
+check_bg <- function(bg_freqs){
+  if (length(bg_freqs) != 4) stop("Invalid background frequencies -- should be length 4")
+  if (!all.equal(sum(bg_freqs),1) || min(bg_freqs) <= 0){
+    stop("Invalid background frequencies. Should sum to 1")
+  }
+
+  if (!is.null(names(bg_freqs))){
+    if (!all(names(c("A","C","G","T") %in% bg_freqs))){
+      stop("Background nucleotide frequencies have names that don't match nucleotides! (A,C,G,T)")
+    } else{
+      bg_freqs <- bg_freqs[c("A","C","G","T")]
+    }
+  }
+  return(bg_freqs)
+}
+
 convert_pwm <- function(pwm, bg_freqs) {
   type <- pwm_type(pwm)
   out <- as.matrix(pwm)
@@ -49,7 +67,7 @@ convert_pwm <- function(pwm, bg_freqs) {
     norm_mat <- matrix(log2(bg(pwm)) - log2(bg_freqs), nrow = 4,
                        ncol = length(pwm),
       byrow = FALSE)
-    out <- log(2^(as.matrix(pwm) - norm_mat))
+    out <- as.matrix(pwm) - norm_mat
   } else if (type == "log") {
     norm_mat <- matrix(log(bg(pwm)) - log(bg_freqs), nrow = 4,
                        ncol = length(pwm),

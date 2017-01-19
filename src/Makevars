@@ -1,19 +1,14 @@
 CXX_STD = CXX11
-
-SOURCES=\
-./MOODS/scanner.cpp \
-./MOODS/motif_h.cpp \
-./MOODS/motif_0.cpp \
-./MOODS/moods_tools.cpp \
-./MOODS/moods_scan.cpp \
-./MOODS/moods_parsers.cpp \
-./MOODS/moods_misc.cpp \
-./MOODS/match_types.cpp
-
-OBJECTS = RcppExports.o r_interface.o $(SOURCES:.cpp=.o)
-
 PKG_CPPFLAGS=-I. -I./MOODS/
 
-all: $(SHLIB)
-#$(OBJECTS): clean
-clean: @rm -f $(OBJECTS)
+OBJECTS=\
+./RcppExports.o \
+./r_interface.o \
+./MOODS/scanner.o \
+./MOODS/motif_h.o \
+./MOODS/motif_0.o \
+./MOODS/moods_tools.o \
+./MOODS/moods_scan.o \
+./MOODS/moods_parsers.o \
+./MOODS/moods_misc.o \
+./MOODS/match_types.o

@@ -3,6 +3,9 @@ Type: Package
 Title: Fast motif matching in R
 Version: 0.1.0
 Date: 2016-04-07
+Authors@R: c(
+    person("Alicia", "Schep", email = "aschep@stanford.edu", role = c("aut","cre")),
+    person("Stanford University", role = "cph"))
 Author: Alicia Schep and authors/contributors of the
     included MOODS software. See file AUTHORS for details.
 Maintainer: Alicia Schep <aschep@stanford.edu>    
@@ -22,6 +25,8 @@ Imports:
     SummarizedExperiment,
     GenomicRanges,
     IRanges
+Depends:
+    R (>= 2.10)
 Suggests:
     testthat,
     knitr,

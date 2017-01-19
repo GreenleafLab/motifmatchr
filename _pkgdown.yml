@@ -1,0 +1,26 @@
+templates:
+  params:
+    bootswatch: cerulean
+
+reference:
+  - title: match_motifs
+    desc:  Main function to match motifs
+    contents:
+    - match_motifs
+  - title: Accessors
+    desc: Accessor functions for results
+    contents:
+    - motif_matches
+    - motif_scores
+    - motif_counts
+  - title: Data
+    desc: Some sample motifs
+    contents:
+    - example_motifs
+
+navbar:
+  left:
+  - text: Vignette
+    href: articles/motifmatchr.html
+  - text: Reference
+    href: reference/index.html

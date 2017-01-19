@@ -32,7 +32,23 @@ setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
 })
 
 
-match_pwms_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
+#' motif_counts
+#'
+#' get motif counts from SummarizedExperiment object
+#' @param object SummarizedExperiment object with counts assay
+#' @return matrix with counts
+#' @export
+setGeneric("motif_counts", function(object) standardGeneric("motif_counts"))
+
+#' @describeIn motif_matches method for SummarizedExperiment
+#' @export
+setMethod("motif_counts", c(object = "SummarizedExperiment"), function(object) {
+  if ("counts" %ni% assayNames(object))
+    stop("No counts in this object")
+  assays(object)$counts
+})
+
+match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 
   motif_mats <- convert_pwms(pwms, bg)
 
@@ -94,9 +110,9 @@ match_pwms_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 }
 
 
-#' match_pwms
+#' match_motifs
 #'
-#' Find pwm matches
+#' Find motif matches
 #' @param pwms either \code{\link[TFBSTools]{PFMatrix}},
 #' \code{\link[TFBSTools]{PFMatrixList}}, \code{\link[TFBSTools]{PWMatrix}},
 #' \code{\link[TFBSTools]{PWMatrixList}}
@@ -118,12 +134,12 @@ match_pwms_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 #'  with all the positions of matches or \code{\link[GenomicRanges]{GenomicRanges}}
 #'  if positions
 #' @export
-setGeneric("match_pwms",
-           function(pwms, subject, ...) standardGeneric("match_pwms"))
+setGeneric("match_motifs",
+           function(pwms, subject, ...) standardGeneric("match_motifs"))
 
-#' @describeIn match_pwms PWMatrixList/DNAStringSet
+#' @describeIn match_motifs PWMatrixList/DNAStringSet
 #' @export
-setMethod("match_pwms", signature(pwms = "PWMatrixList",
+setMethod("match_motifs", signature(pwms = "PWMatrixList",
                                   subject = "DNAStringSet"),
           function(pwms, subject, genome = NULL, bg = NULL,
                    out = c("matches", "scores", "positions"),
@@ -133,16 +149,16 @@ setMethod("match_pwms", signature(pwms = "PWMatrixList",
             if (is.null(bg)) {
               bg <- get_nuc_freqs(subject)
             } else {
-              stopifnot(length(bg) == 4 && is.numeric(bg))
+              bg <- check_bg(bg)
             }
             seqs <- as.character(subject)
 
-            match_pwms_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
+            match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
           })
 
-#' @describeIn match_pwms PWMatrixList/character
+#' @describeIn match_motifs PWMatrixList/character
 #' @export
-setMethod("match_pwms", signature(pwms = "PWMatrixList", subject = "character"),
+setMethod("match_motifs", signature(pwms = "PWMatrixList", subject = "character"),
           function(pwms, subject, genome = NULL, bg = NULL,
                    out = c("matches", "scores",  "positions"),
                    p.cutoff = 5e-05, w = 7, ranges = NULL) {
@@ -152,14 +168,14 @@ setMethod("match_pwms", signature(pwms = "PWMatrixList", subject = "character"),
             if (is.null(bg)) {
               bg <- get_nuc_freqs(subject)
             } else {
-              stopifnot(length(bg) == 4 && is.numeric(bg))
+              bg <- check_bg(bg)
             }
-            match_pwms_helper(pwms, subject, bg, p.cutoff, w, out, ranges)
+            match_motifs_helper(pwms, subject, bg, p.cutoff, w, out, ranges)
           })
 
-#' @describeIn match_pwms PWMatrixList/DNAString
+#' @describeIn match_motifs PWMatrixList/DNAString
 #' @export
-setMethod("match_pwms", signature(pwms = "PWMatrixList", subject = "DNAString"),
+setMethod("match_motifs", signature(pwms = "PWMatrixList", subject = "DNAString"),
           function(pwms, subject, genome = NULL, bg = NULL,
                    out = c("matches", "scores", "positions"),
                    p.cutoff = 5e-05, w = 7, ranges = NULL) {
@@ -167,17 +183,17 @@ setMethod("match_pwms", signature(pwms = "PWMatrixList", subject = "DNAString"),
             if (is.null(bg)) {
               bg <- get_nuc_freqs(subject)
             } else {
-              stopifnot(length(bg) == 4 && is.numeric(bg))
+              bg <- check_bg(bg)
             }
 
             seqs <- as.character(subject)
 
-            match_pwms_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
+            match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
           })
 
-#' @describeIn match_pwms PWMatrixList/GenomicRanges
+#' @describeIn match_motifs PWMatrixList/GenomicRanges
 #' @export
-setMethod("match_pwms", signature(pwms = "PWMatrixList",
+setMethod("match_motifs", signature(pwms = "PWMatrixList",
                                   subject = "GenomicRanges"),
           function(pwms, subject, genome = BSgenome.Hsapiens.UCSC.hg19,
                    bg = NULL, out = c("matches", "scores", "positions"),
@@ -189,32 +205,32 @@ setMethod("match_pwms", signature(pwms = "PWMatrixList",
             if (is.null(bg)) {
               bg <- get_nuc_freqs(seqs)
             } else {
-              stopifnot(length(bg) == 4 && is.numeric(bg))
+              bg <- check_bg(bg)
             }
 
             seqs <- as.character(seqs)
 
-            match_pwms_helper(pwms, seqs, bg, p.cutoff, w, out, subject)
+            match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, subject)
           })
 
-#' @describeIn match_pwms PWMatrixList/RangedSummarizedExperiment
+#' @describeIn match_motifs PWMatrixList/RangedSummarizedExperiment
 #' @export
-setMethod("match_pwms", signature(pwms = "PWMatrixList",
+setMethod("match_motifs", signature(pwms = "PWMatrixList",
                                   subject = "RangedSummarizedExperiment"),
           function(pwms, subject, genome = BSgenome.Hsapiens.UCSC.hg19,
                    bg = NULL, out = c("matches", "scores", "positions"),
                    p.cutoff = 5e-05, w = 7,
                    ranges = NULL) {
             out <- match.arg(out)
-            match_pwms(pwms, rowRanges(subject), genome, bg, out, p.cutoff, w)
+            match_motifs(pwms, rowRanges(subject), genome, bg, out, p.cutoff, w)
           })
 
 ### PFMatrixList ---------------------------------------------------------------
 
 
-#' @describeIn match_pwms PFMatrixList/ANY
+#' @describeIn match_motifs PFMatrixList/ANY
 #' @export
-setMethod("match_pwms", signature(pwms = "PFMatrixList", subject = "ANY"),
+setMethod("match_motifs", signature(pwms = "PFMatrixList", subject = "ANY"),
           function(pwms,
                    subject, genome = BSgenome.Hsapiens.UCSC.hg19,
                    bg = NULL,
@@ -222,23 +238,23 @@ setMethod("match_pwms", signature(pwms = "PFMatrixList", subject = "ANY"),
                    p.cutoff = 5e-05, w = 7, ranges = NULL) {
             out <- match.arg(out)
             pwms_list <- do.call(PWMatrixList, lapply(pwms, toPWM))
-            match_pwms(pwms_list, subject, genome = genome, bg = bg, out = out,
+            match_motifs(pwms_list, subject, genome = genome, bg = bg, out = out,
                        p.cutoff = p.cutoff,
                        w = w, ranges = ranges)
           })
 
 # Single PWM input -------------------------------------------------------------
 
-#' @describeIn match_pwms PWMatrix/ANY
+#' @describeIn match_motifs PWMatrix/ANY
 #' @export
-setMethod("match_pwms", signature(pwms = "PWMatrix", subject = "ANY"),
+setMethod("match_motifs", signature(pwms = "PWMatrix", subject = "ANY"),
           function(pwms,
                    subject, genome = BSgenome.Hsapiens.UCSC.hg19, bg = NULL,
                    out = c("matches", "scores", "positions"), p.cutoff = 5e-05,
                    w = 7, ranges = NULL) {
             out <- match.arg(out)
             pwms_list <- PWMatrixList(pwms)
-            match_pwms(pwms_list, subject, genome = genome, bg = bg, out = out,
+            match_motifs(pwms_list, subject, genome = genome, bg = bg, out = out,
                        p.cutoff = p.cutoff,
                        w = w, ranges = ranges)
           })
@@ -246,9 +262,9 @@ setMethod("match_pwms", signature(pwms = "PWMatrix", subject = "ANY"),
 
 # Single PFM -------------------------------------------------------------------
 
-#' @describeIn match_pwms PFMatrix/ANY
+#' @describeIn match_motifs PFMatrix/ANY
 #' @export
-setMethod("match_pwms",
+setMethod("match_motifs",
           signature(pwms = "PFMatrix", subject = "ANY"),
           function(pwms,
                    subject,
@@ -260,7 +276,7 @@ setMethod("match_pwms",
                    ranges = NULL) {
             out <- match.arg(out)
             pwms_list <- PWMatrixList(toPWM(pwms))
-            match_pwms(pwms_list,
+            match_motifs(pwms_list,
                        subject,
                        genome = genome,
                        bg = bg,

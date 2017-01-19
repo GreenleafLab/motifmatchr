@@ -1,4 +1,4 @@
-context("match_pwms")
+context("match_motifs")
 
 data("example_motifs", package = "motifmatchr")
 
@@ -44,122 +44,122 @@ colnames(bs_res) <- names(example_motifs)
 # Output of matches ------------------------------------------------------------
 
 test_that("Can run match_pwm with PFMatrixList and peaks",{
-  mm_res <- match_pwms(example_motifs, peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, peaks, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrixList and SummarizedExperiment",{
-  mm_res <- match_pwms(example_motifs, se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, se, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrixList and DNAStringSet",{
-  mm_res <- match_pwms(example_motifs, dss, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, dss, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrixList and character string",{
-  mm_res <- match_pwms(example_motifs, ch, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, ch, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrixList and DNAString",{
-  mm_res <- match_pwms(example_motifs, dss[[3]], bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, dss[[3]], bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches)[1,], bs_res[3,])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 
 test_that("Can run match_pwm with PWMatrixList and peaks",{
-  mm_res <- match_pwms(example_pwms, peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, peaks, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrixList and SummarizedExperiment",{
-  mm_res <- match_pwms(example_pwms, se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, se, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrixList and DNAStringSet",{
-  mm_res <- match_pwms(example_pwms, dss, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, dss, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrixList and character string",{
-  mm_res <- match_pwms(example_pwms, ch, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, ch, bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches), bs_res)
 })
 
 test_that("Can run match_pwm with PWMatrixList and DNAString",{
-  mm_res <- match_pwms(example_pwms, dss[[3]], bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, dss[[3]], bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$matches)[1,], bs_res[3,])
 })
 
 
 
 test_that("Can run match_pwm with PWMatrix and peaks",{
-  mm_res <- match_pwms(example_pwms[[3]], peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], peaks, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrix and SummarizedExperiment",{
-  mm_res <- match_pwms(example_pwms[[3]], se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], se, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrix and DNAStringSet",{
-  mm_res <- match_pwms(example_pwms[[3]], dss, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], dss, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrix and character string",{
-  mm_res <- match_pwms(example_pwms[[3]], ch, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], ch, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrix and DNAString",{
-  mm_res <- match_pwms(example_pwms[[3]], dss[[3]], bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], dss[[3]], bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), unname(bs_res[3,3]))
 })
 
 
 test_that("Can run match_pwm with PFMatrix and peaks",{
-  mm_res <- match_pwms(example_motifs[[3]], peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], peaks, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrix and SummarizedExperiment",{
-  mm_res <- match_pwms(example_motifs[[3]], se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], se, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrix and DNAStringSet",{
-  mm_res <- match_pwms(example_motifs[[3]], dss, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], dss, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrix and character string",{
-  mm_res <- match_pwms(example_motifs[[3]], ch, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], ch, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrix and DNAString",{
-  mm_res <- match_pwms(example_motifs[[3]], dss[[3]], bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], dss[[3]], bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$matches), unname(bs_res[3,3]))
 })
 
