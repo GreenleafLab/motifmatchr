@@ -56,6 +56,8 @@ match_pwms(pwms, subject, ...)
 \code{\link[Biostrings]{DNAStringSet}}, \code{\link[Biostrings]{DNAString}},
 or character vector}
 
+\item{...}{additional arguments depending on inputs}
+
 \item{genome}{BSgenome object, only used if subect is
 \code{\link[GenomicRanges]{GenomicRanges}}}
 

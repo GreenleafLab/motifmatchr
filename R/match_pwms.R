@@ -1,11 +1,12 @@
-
-setGeneric("motif_matches", function(object) standardGeneric("motif_matches"))
-
 #' motif_matches
 #'
 #' get motif matches from SummarizedExperiment object
 #' @param object SummarizedExperiment object with matches assay
 #' @return matrix with scores
+#' @export
+setGeneric("motif_matches", function(object) standardGeneric("motif_matches"))
+
+#' @describeIn motif_matches method for SummarizedExperiment
 #' @export
 setMethod("motif_matches", c(object = "SummarizedExperiment"), function(object) {
   if ("matches" %ni% assayNames(object))
@@ -14,15 +15,15 @@ setMethod("motif_matches", c(object = "SummarizedExperiment"), function(object) 
 })
 
 
-
-
-setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
-
 #' motif_scores
 #'
 #' get motif scores from SummarizedExperiment object
 #' @param object SummarizedExperiment object with scores assay
 #' @return matrix with scores
+#' @export
+setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
+
+#' @describeIn motif_matches method for SummarizedExperiment
 #' @export
 setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
   if ("scores" %ni% assayNames(object))

@@ -1,6 +1,14 @@
 CXX_STD = CXX11
 
-SOURCES=$(wildcard MOODS/*.cpp)
+SOURCES=\
+./MOODS/scanner.cpp \
+./MOODS/motif_h.cpp \
+./MOODS/motif_0.cpp \
+./MOODS/moods_tools.cpp \
+./MOODS/moods_scan.cpp \
+./MOODS/moods_parsers.cpp \
+./MOODS/moods_misc.cpp \
+./MOODS/match_types.cpp
 
 OBJECTS = RcppExports.o r_interface.o $(SOURCES:.cpp=.o)
 

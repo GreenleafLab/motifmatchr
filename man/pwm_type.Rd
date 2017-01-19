@@ -9,7 +9,7 @@ pwm_type(pwm)
 pwm_type(pwm)
 }
 \arguments{
-\item{PWMatrix}{object}
+\item{pwm}{PWMatrix object}
 
 \item{PWMatrix}{object}
 }
