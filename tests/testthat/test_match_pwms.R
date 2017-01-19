@@ -30,7 +30,7 @@ example_pwms <- do.call(TFBSTools::PWMatrixList,lapply(example_motifs, toPWM))
 
 bs_method <- function(motif, s, score){
   forward_matches <- Biostrings::matchPWM(motif, s, min.score = score)
-  reverse_matches <- Biostrings::matchPWM(motif, reverseComplement(s), min.score = score)
+  reverse_matches <- Biostrings::matchPWM(motif, Biostrings::reverseComplement(s), min.score = score)
   (length(forward_matches) !=0) || (length(reverse_matches) != 0)
 }
 
@@ -41,6 +41,7 @@ m3 <- sapply(dss, function(x) bs_method(motif3,x, thresh[3]))
 bs_res <- cbind(m1,m2,m3)
 colnames(bs_res) <- names(example_motifs)
 
+# Output of matches ------------------------------------------------------------
 
 test_that("Can run match_pwm with PFMatrixList and peaks",{
   mm_res <- match_pwms(example_motifs, peaks, bg = rep(0.25,4))
@@ -162,5 +163,5 @@ test_that("Can run match_pwm with PFMatrix and DNAString",{
   expect_equal(as.vector(assays(mm_res)$matches), unname(bs_res[3,3]))
 })
 
-
+# Output of scores _------------------------------------------------------------
 

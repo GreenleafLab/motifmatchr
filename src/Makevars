@@ -1,0 +1,11 @@
+CXX_STD = CXX11
+
+SOURCES=$(wildcard MOODS/*.cpp)
+
+OBJECTS = RcppExports.o r_interface.o $(SOURCES:.cpp=.o)
+
+PKG_CPPFLAGS=-I. -I./MOODS/
+
+all: $(SHLIB)
+#$(OBJECTS): clean
+clean: @rm -f $(OBJECTS)

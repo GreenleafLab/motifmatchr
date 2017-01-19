@@ -1,11 +1,11 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
-#include "moods.h"
-#include "moods_misc.h"
-#include "moods_tools.h"
-#include "match_types.h"
-#include "motif.h"
-#include "scanner.h"
+#include "MOODS/moods.h"
+#include "MOODS/moods_misc.h"
+#include "MOODS/moods_tools.h"
+#include "MOODS/match_types.h"
+#include "MOODS/motif.h"
+#include "MOODS/scanner.h"
 
 using namespace Rcpp;
 

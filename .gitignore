@@ -1,1 +1,7 @@
+.Rproj.user
+*.Rproj
+.Rhistory
+.RData
+src/*.so
+src/*.o
 inst/doc

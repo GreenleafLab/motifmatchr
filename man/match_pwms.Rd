@@ -48,15 +48,15 @@ match_pwms(pwms, subject, ...)
   "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 }
 \arguments{
-\item{pwms}{either \code{\link[TFBSTools]{PFMatrix}}, 
-\code{\link[TFBSTools]{PFMatrixList}}, \code{\link[TFBSTools]{PWMatrix}}, 
+\item{pwms}{either \code{\link[TFBSTools]{PFMatrix}},
+\code{\link[TFBSTools]{PFMatrixList}}, \code{\link[TFBSTools]{PWMatrix}},
 \code{\link[TFBSTools]{PWMatrixList}}}
 
-\item{subject}{either \code{\link[GenomicRanges]{GenomicRanges}}, 
-\code{\link[Biostrings]{DNAStringSet}}, \code{\link[Biostrings]{DNAString}}, 
+\item{subject}{either \code{\link[GenomicRanges]{GenomicRanges}},
+\code{\link[Biostrings]{DNAStringSet}}, \code{\link[Biostrings]{DNAString}},
 or character vector}
 
-\item{genome}{BSgenome object, only used if subect is 
+\item{genome}{BSgenome object, only used if subect is
 \code{\link[GenomicRanges]{GenomicRanges}}}
 
 \item{bg}{background nucleotide frequencies. if not provided, computed from subject}
@@ -73,10 +73,10 @@ or character vector}
 Find pwm matches
 }
 \details{
-Can either return a SummarizedExperiment with a sparse matrix with 
- values set to TRUE for a match (if return == 'matches'), a SummarizedExperiment 
+Can either return a SummarizedExperiment with a sparse matrix with
+ values set to TRUE for a match (if return == 'matches'), a SummarizedExperiment
  with a matches matrix as well as matrices with the maximum motif score and total
- motif counts (if return == 'scores'), or a GenomicRanges or IRanges object 
+ motif counts (if return == 'scores'), or a GenomicRanges or IRanges object
  with all the positions of matches or \code{\link[GenomicRanges]{GenomicRanges}}
  if positions
 }

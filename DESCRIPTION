@@ -3,14 +3,11 @@ Type: Package
 Title: Fast motif matching in R
 Version: 0.1.0
 Date: 2016-04-07
-Authors@R: c(
-  person("Alicia", "Schep", email = "aschep@stanford.edu", role = c("aut","cre")),
-  person("Pasi", "Rastas", role = c("aut","cph")),
-  person("Janne", "Korhonen", role = c("aut","cph")),
-  person("Petri", "Martinmaki", role = c("aut","cph")),
-  person("Stanford University", role = "cph"))
-Description: Find motif matches for many motifs and sequences. Wraps code from 
-    the MOODS C++ motif calling library, which was developed
+Author: Alicia Schep and authors/contributors of the
+    included MOODS software. See file AUTHORS for details.
+Maintainer: Alicia Schep <aschep@stanford.edu>    
+Description: Quickly find motif matches for many motifs and many sequences. 
+    Wraps C++ code from the MOODS motif calling library, which was developed
     by Pasi Rastas, Janne Korhonen, and Petri Martinmaki.
 License: GPL-3 + file LICENSE
 Imports:
@@ -21,7 +18,10 @@ Imports:
     TFBSTools,
     Biostrings,
     BSgenome.Hsapiens.UCSC.hg19,
-    S4Vectors
+    S4Vectors,
+    SummarizedExperiment,
+    GenomicRanges,
+    IRanges
 Suggests:
     testthat,
     knitr,

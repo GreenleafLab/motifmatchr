@@ -9,6 +9,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+# Introduction
+
+The motifmatchr package is designed for analyzing many sequences and many motifs to find which sequences contain which motifs. It uses the MOODS C++ library internally for motif matching, and relies on the TFBSTools package for the   
+
 # Finding motif matches
 
 The match_pwms takes as inputs these motifs, or your own list of motifs, and returns a (Ranged)SummarizedExperiment with a matrix indicating what peaks (rows) contain what motifs (columns). 
@@ -16,7 +20,6 @@ The match_pwms takes as inputs these motifs, or your own list of motifs, and ret
 ```{r, message = FALSE}
 library(motifmatchr)
 library(GenomicRanges)
-library(IRanges)
 
 data(example_motifs, package = "motifmatchr")
 peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
