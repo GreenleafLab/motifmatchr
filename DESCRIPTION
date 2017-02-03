@@ -4,11 +4,11 @@ Title: Fast motif matching in R
 Version: 0.1.0
 Date: 2016-04-07
 Authors@R: c(
-    person("Alicia", "Schep", email = "aschep@stanford.edu", role = c("aut","cre")),
+    person("Alicia", "Schep", email = "aschep@gmail.com", role = c("aut","cre")),
     person("Stanford University", role = "cph"))
 Author: Alicia Schep and authors/contributors of the
     included MOODS software. See file AUTHORS for details.
-Maintainer: Alicia Schep <aschep@stanford.edu>    
+Maintainer: Alicia Schep <aschep@gmail.com>    
 Description: Quickly find motif matches for many motifs and many sequences. 
     Wraps C++ code from the MOODS motif calling library, which was developed
     by Pasi Rastas, Janne Korhonen, and Petri Martinmaki.
