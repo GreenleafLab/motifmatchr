@@ -1,7 +1,4 @@
 ---
-title: "motifmatchr"
-author: "Alicia Schep"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{motifmatchr}
@@ -9,7 +6,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Introduction
+# motifmatchr
 
 The motifmatchr package is designed for analyzing many sequences and many motifs to find which sequences contain which motifs. It uses the MOODS C++ library internally for motif matching.  The primary method of motifmatchr is `match_motifs`, which takes in motif PWMs/PFMs and genomic ranges or sequences and returns either which ranges/sequences match which motifs or the positions of the matches.  
 
@@ -156,4 +153,16 @@ print(motif_ix_scores)
 motif_pos <- match_motifs(example_motifs, peaks, out = "positions") 
 print(motif_pos)
 ```
+
+## Session Info
+
+```{r}
+Sys.Date()
+```
+
+```{r}
+sessionInfo()
+```
+
+
 

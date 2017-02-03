@@ -28,9 +28,14 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-    <div id="motifmatchr" class="section level1">
+    
+<hr><div id="motifmatchr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor"><a href="#motifmatchr" class="anchor"> </a>motifmatchr</h1></div>
-<p>motifmatch is an R package for fast motif matching, using C++ code from the MOODS library. The MOODS library was developed by Pasi Rastas, Janne Korhonen, and Petri Martinm&auml;ki. The core C++ library from MOODs version MOODS 1.9.3 code has been included in this repository.</p>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"> </a>Introduction</h2>
+<p>motifmatchr is an R package for fast motif matching, using C++ code from the MOODS library. The MOODS library was developed by Pasi Rastas, Janne Korhonen, and Petri Martinm&auml;ki. The core C++ library from MOODs version MOODS 1.9.3 code has been included in this repository.</p>
+</div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"> </a>Installation</h2>
@@ -47,9 +52,9 @@
 <p>2) Either a set of genomic ranges (GenomicRanges or RangedSummarizedExperiment object) or a set of sequences (either DNAStringSet, DNAString, or simple character vector)</p>
 <p>If the second argument is a set of genomic ranges, a genome sequence is also required. By default <a href="https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html">BSgenome.Hsapiens.UCSC.hg19</a> is used. If using another genome build, the appropraiate BSgenome object for your species should be passed to the <code>genome</code> argument.</p>
 <p>This function can return three possible outputs, depending on the <code>out</code> argument:</p>
-<p>1) (Default, with <code>out = matches</code>) Boolean matrix indicating which ranges/sequences contain which motifs, stored as &ldquo;matches&rdquo; in assays slot of SummarizedExperiment object</p>
-<p>2) (out = <code>scores</code>) Same as (1) plus two additional assays &ndash; a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches.</p>
-<p>3) (out = <code>positions</code>) A GenomicRangesList with the ranges of all matches within the input ranges/sequences.</p>
+<p>1) (Default, with <code>out = "matches"</code>) Boolean matrix indicating which ranges/sequences contain which motifs, stored as &ldquo;matches&rdquo; in assays slot of SummarizedExperiment object</p>
+<p>2) (<code>out = "scores"</code>) Same as (1) plus two additional assays &ndash; a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches.</p>
+<p>3) (<code>out = "positions"</code>) A GenomicRangesList with the ranges of all matches within the input ranges/sequences.</p>
 </div>
 <div id="quickstart" class="section level2">
 <h2 class="hasAnchor">
@@ -75,9 +80,10 @@ motif_ix &lt;- match_motifs(example_motifs, peaks, out = "positions") </code></p
 <div id="more-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#more-information" class="anchor"> </a>More information</h2>
-<p>For more in depth documentation, see vignettes.</p>
+<p>See documentation <a href="http://GreenleafLab.github.io/motifmatchr">website</a>.</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3" id="sidebar">
