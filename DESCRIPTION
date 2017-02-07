@@ -1,6 +1,6 @@
 Package: motifmatchr
 Type: Package
-Title: Fast motif matching in R
+Title: Fast Motif Matching in R
 Version: 0.1.0
 Date: 2016-04-07
 Authors@R: c(
