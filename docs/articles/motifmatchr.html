@@ -38,7 +38,7 @@
 <div class="contents">
 <div id="motifmatchr" class="section level1">
 <h1 class="hasAnchor"><html><body><a href="#motifmatchr" class="anchor"> </a></body></html>motifmatchr</h1>
-<p>The motifmatchr package is designed for analyzing many sequences and many motifs to find which sequences contain which motifs. It uses the MOODS C++ library internally for motif matching. The primary method of motifmatchr is <code>match_motifs</code>, which takes in motif PWMs/PFMs and genomic ranges or sequences and returns either which ranges/sequences match which motifs or the positions of the matches.</p>
+<p>The motifmatchr package is designed for analyzing many sequences and many motifs to find which sequences contain which motifs. It uses the MOODS C++ library (developedby Pasi Rastas, Janne Korhonen, and Petri Martinmaki) internally for motif matching. The primary method of motifmatchr is <code>match_motifs</code>, which takes in motif PWMs/PFMs and genomic ranges or sequences and returns either which ranges/sequences match which motifs or the positions of the matches.</p>
 <p>Compared with alternative motif matching functions available in Bioconductor (e.g.&nbsp;matchPWM in Biostrings or searchSeq in TFBSTools), motifmatchr is designed specifically for the use case of determining whether many different sequences/ranges contain many different motifs.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor"><html><body><a href="#installation" class="anchor"> </a></body></html>Installation</h2>
@@ -192,7 +192,7 @@ example_pwms &lt;-<span class="st"> </span><span class="kw">do.call</span>(PWMat
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor"><html><body><a href="#session-info" class="anchor"> </a></body></html>Session Info</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.Date</span>()</code></pre></div>
-<pre><code>## [1] "2017-02-02"</code></pre>
+<pre><code>## [1] "2017-02-06"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.3.1 (2016-06-21)
 ## Platform: x86_64-pc-linux-gnu (64-bit)

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>motifmatchr — motifmatchr • motifmatchr</title>
+<title>motifmatchr: Fast Motif Matching in R — motifmatchr • motifmatchr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -69,20 +69,39 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>motifmatchr</h1>
+    <h1>motifmatchr: Fast Motif Matching in R</h1>
     </div>
 
     
-    <p>Fast motif matching in R</p>
+    <p>The motifmatchr package is designed for analyzing many sequences and many
+motifs to find which sequences contain which motifs.</p>
     
 
         
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>motifmatchr uses the MOODS C++ library (developedby Pasi Rastas,
+Janne Korhonen, and Petri Martinmaki) internally for motif matching.</p>
+    <p>The primary method of motifmatchr is <code><a href='match_motifs.html'>match_motifs</a></code>, which takes
+in motif PWMs/PFMs and genomic ranges or sequences and returns either which
+ranges/sequences match which motifs or the positions of the matches.</p>
+    <p>Compared with alternative motif matching functions available in Bioconductor
+(e.g. matchPWM in Biostrings or searchSeq in TFBSTools), motifmatchr is
+designed specifically for the use case of determining whether many different
+sequences/ranges contain many different motifs.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
+
+    <h2>Author</h2>
+    
+Alicia Schep
 
   </div>
 </div>
