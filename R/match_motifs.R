@@ -23,7 +23,7 @@ setMethod("motif_matches", c(object = "SummarizedExperiment"), function(object) 
 #' @export
 setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
 
-#' @describeIn motif_matches method for SummarizedExperiment
+#' @describeIn motif_scores method for SummarizedExperiment
 #' @export
 setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
   if ("scores" %ni% assayNames(object))
@@ -40,7 +40,7 @@ setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
 #' @export
 setGeneric("motif_counts", function(object) standardGeneric("motif_counts"))
 
-#' @describeIn motif_matches method for SummarizedExperiment
+#' @describeIn motif_counts method for SummarizedExperiment
 #' @export
 setMethod("motif_counts", c(object = "SummarizedExperiment"), function(object) {
   if ("counts" %ni% assayNames(object))

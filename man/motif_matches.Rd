@@ -2,19 +2,13 @@
 % Please edit documentation in R/match_motifs.R
 \docType{methods}
 \name{motif_matches}
-\alias{motif_counts,SummarizedExperiment-method}
 \alias{motif_matches}
 \alias{motif_matches,SummarizedExperiment-method}
-\alias{motif_scores,SummarizedExperiment-method}
 \title{motif_matches}
 \usage{
 motif_matches(object)
 
 \S4method{motif_matches}{SummarizedExperiment}(object)
-
-\S4method{motif_scores}{SummarizedExperiment}(object)
-
-\S4method{motif_counts}{SummarizedExperiment}(object)
 }
 \arguments{
 \item{object}{SummarizedExperiment object with matches assay}
@@ -27,10 +21,6 @@ get motif matches from SummarizedExperiment object
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{SummarizedExperiment}: method for SummarizedExperiment
-
-\item \code{SummarizedExperiment}: method for SummarizedExperiment
-
 \item \code{SummarizedExperiment}: method for SummarizedExperiment
 }}
 
