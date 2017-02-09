@@ -24,3 +24,6 @@ navbar:
     href: articles/motifmatchr.html
   - text: Reference
     href: reference/index.html
+  - text: GitHub
+    icon: fa-github
+    href: https://github.com/GreenleafLab/motifmatchr/
