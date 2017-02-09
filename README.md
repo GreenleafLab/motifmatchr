@@ -60,4 +60,4 @@ motif_ix <- match_motifs(example_motifs, peaks, out = "positions")
 
 ## More information
 
-For a more detailed overview, see vignettes.
+For a more detailed overview, see [vignette](https://greenleaflab.github.io/motifmatchr/articles/motifmatchr.html).
