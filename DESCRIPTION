@@ -31,6 +31,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
+biocViews: MotifAnnotation
 LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: C++11
 RoxygenNote: 5.0.1
