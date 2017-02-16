@@ -3,3 +3,4 @@
 ^data-raw$
 ^docs$
 ^_pkgdown.yml$
+^.travis.yml$
