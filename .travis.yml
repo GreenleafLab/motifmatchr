@@ -1,4 +1,9 @@
 language: r
+cache: packages
 r:
   - bioc-devel
   - bioc-release
+addons:
+  apt:
+    packages:
+      - libgsl0ldbl
