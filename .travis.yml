@@ -7,3 +7,4 @@ addons:
   apt:
     packages:
       - libgsl0ldbl
+      - libgsl0-dev
