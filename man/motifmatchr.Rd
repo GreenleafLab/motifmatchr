@@ -25,4 +25,3 @@ sequences/ranges contain many different motifs.
 \author{
 Alicia Schep
 }
-

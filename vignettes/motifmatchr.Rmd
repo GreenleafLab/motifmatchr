@@ -41,9 +41,9 @@ peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
                  ranges = IRanges(start = c(76585873,42772928,100183786),
                                   width = 500))
 
-# Get motif matches for example motifs in peaks (using hg19 genome, the default)
+# Get motif matches for example motifs in peaks (using default hg19 genome)
 motif_ix <- match_motifs(example_motifs, peaks) 
-motif_matches(motif_ix) # Extract matches matrix from SummarizedExperiment result
+motif_matches(motif_ix) # Extract matches matrix from result
 
 # Get motif positions within peaks for example motifs in peaks 
 motif_pos <- match_motifs(example_motifs, peaks, out = "positions") 
@@ -64,14 +64,17 @@ If the second argument is a set of genomic ranges, a genome sequence is also req
 motif_ix_peaks <- match_motifs(example_motifs, peaks) 
 
 # using SummarizedExperiment
-example_SummarizedExperiment <- SummarizedExperiment(assays = list(counts = matrix(1,
-                                                                               ncol = 4,
-                                                                               nrow = 3)),
-                                                 rowRanges = peaks)
+example_SummarizedExperiment <- 
+    SummarizedExperiment(assays = list(counts = matrix(1,
+                                                       ncol = 4,
+                                                       nrow = 3)),
+                         rowRanges = peaks)
 
-motif_ix_SummarizedExperiment <- match_motifs(example_motifs, example_SummarizedExperiment) 
+motif_ix_SummarizedExperiment <- match_motifs(example_motifs,
+                                              example_SummarizedExperiment) 
 
-all.equal(motif_matches(motif_ix_peaks), motif_matches(motif_ix_SummarizedExperiment))
+all.equal(motif_matches(motif_ix_peaks),
+          motif_matches(motif_ix_SummarizedExperiment))
 ```
 
 ```{r, message = FALSE}
@@ -112,7 +115,8 @@ motif_ix <- match_motifs(example_motifs, peaks, bg = rep(0.25, 4))
 To specify frequencies per base pair, the order should be "A","C","G", then "T", or those nucleotides should be used as names in the vector.
 
 ```{r}
-motif_ix <- match_motifs(example_motifs, peaks, bg = c("A" = 0.2,"C" = 0.3, "G" = 0.3, "T" = 0.2)) 
+motif_ix <- match_motifs(example_motifs, peaks, 
+                         bg = c("A" = 0.2,"C" = 0.3, "G" = 0.3, "T" = 0.2)) 
 ```
 
 PWMatrix objects have associated background frequencies that can be accessed using the `bg` function. If the supplied background frequencies to `match_pwms` do not match the frequencies in the input PWM, then the PWM is adjusted to refect the supplied background frequencies. The calculated score is based on this adjusted PWM and not the direct input PWM. To ensure the score is computed using the exact PWM input, simply make sure the background frequencies passed to match_motifs match hose used for the input PWM and stored in bg slot of PWMatrix object.
@@ -123,7 +127,8 @@ motifmatchr expects input PWMs to use either natural logarithm or log 2. If the 
 
 ```{r, message = FALSE}
 library(TFBSTools)
-example_pwms <- do.call(PWMatrixList,lapply(example_motifs, toPWM, pseudocounts = 0.5))
+example_pwms <- do.call(PWMatrixList,lapply(example_motifs, toPWM, 
+                                            pseudocounts = 0.5))
 ```
 
 ### P value

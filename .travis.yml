@@ -10,3 +10,13 @@ addons:
     packages:
       - libgsl0ldbl
       - libgsl0-dev
+
+bioc_required: true
+bioc_packages:
+  - BiocCheck
+
+
+after_script:
+  - ls -lah
+  - FILE=$(ls -1t *.tar.gz | head -n 1)
+  - Rscript -e "library(BiocCheck); BiocCheck(\"${FILE}\")"

@@ -3,14 +3,14 @@
 \docType{methods}
 \name{match_motifs}
 \alias{match_motifs}
-\alias{match_motifs,PFMatrix,ANY-method}
-\alias{match_motifs,PFMatrixList,ANY-method}
-\alias{match_motifs,PWMatrix,ANY-method}
-\alias{match_motifs,PWMatrixList,DNAString-method}
 \alias{match_motifs,PWMatrixList,DNAStringSet-method}
+\alias{match_motifs,PWMatrixList,character-method}
+\alias{match_motifs,PWMatrixList,DNAString-method}
 \alias{match_motifs,PWMatrixList,GenomicRanges-method}
 \alias{match_motifs,PWMatrixList,RangedSummarizedExperiment-method}
-\alias{match_motifs,PWMatrixList,character-method}
+\alias{match_motifs,PFMatrixList,ANY-method}
+\alias{match_motifs,PWMatrix,ANY-method}
+\alias{match_motifs,PFMatrix,ANY-method}
 \title{match_motifs}
 \usage{
 match_motifs(pwms, subject, ...)
@@ -61,26 +61,28 @@ or character vector}
 \item{genome}{BSgenome object, only used if subect is
 \code{\link[GenomicRanges]{GenomicRanges}}}
 
-\item{bg}{background nucleotide frequencies. if not provided, computed from subject}
+\item{bg}{background nucleotide frequencies. if not provided, computed from
+subject}
 
-\item{out}{what to return? see details}
+\item{out}{what to return? see return section}
 
 \item{p.cutoff}{p-value cutoff for returning motifs}
 
 \item{w}{parameter controlling size of window for filtration; default is 7}
 
-\item{ranges}{if subject is not GenomicRanges, ranges to use when out is positions}
+\item{ranges}{if subject is not GenomicRanges, ranges to use when out is
+positions}
+}
+\value{
+Either returns a SummarizedExperiment with a sparse matrix with
+ values set to TRUE for a match (if return == 'matches'), a
+ SummarizedExperiment with a matches matrix as well as matrices with the
+ maximum motif score and total motif counts (if return == 'scores'), or a
+ GenomicRanges or IRanges object with all the positions of matches or
+ \code{\link[GenomicRanges]{GenomicRanges}} if positions
 }
 \description{
 Find motif matches
-}
-\details{
-Can either return a SummarizedExperiment with a sparse matrix with
- values set to TRUE for a match (if return == 'matches'), a SummarizedExperiment
- with a matches matrix as well as matrices with the maximum motif score and total
- motif counts (if return == 'scores'), or a GenomicRanges or IRanges object
- with all the positions of matches or \code{\link[GenomicRanges]{GenomicRanges}}
- if positions
 }
 \section{Methods (by class)}{
 \itemize{
@@ -101,3 +103,16 @@ Can either return a SummarizedExperiment with a sparse matrix with
 \item \code{pwms = PFMatrix,subject = ANY}: PFMatrix/ANY
 }}
 
+\examples{
+
+data(example_motifs, package = "motifmatchr")
+
+# Make a set of peaks
+peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
+                ranges = IRanges(start = c(76585873,42772928,100183786),
+                                 width = 500))
+
+# Get motif matches for example motifs  (using hg19 genome, the default)
+motif_ix <- match_motifs(example_motifs, peaks)
+
+}

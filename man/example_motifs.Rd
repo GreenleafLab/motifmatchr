@@ -4,12 +4,18 @@
 \name{example_motifs}
 \alias{example_motifs}
 \title{example_motifs}
-\format{\code{\link[TFBSTools]{PFMatrixList}} of length 3}
 \usage{
 data(example_motifs)
+}
+\value{
+\code{\link[TFBSTools]{PFMatrixList}} of length 3
 }
 \description{
 A few example motifs from JASPAR 2016 for trying out motifmatchr
 }
-\keyword{datasets}
+\examples{
 
+data(example_motifs, package = "motifmatchr")
+
+}
+\keyword{datasets}

@@ -24,3 +24,17 @@ get motif matches from SummarizedExperiment object
 \item \code{SummarizedExperiment}: method for SummarizedExperiment
 }}
 
+\examples{
+
+data(example_motifs, package = "motifmatchr")
+
+# Make a set of peaks
+peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
+                ranges = IRanges(start = c(76585873,42772928,100183786),
+                                 width = 500))
+
+# Get motif matches for example motifs  (using hg19 genome, the default)
+motif_ix <- match_motifs(example_motifs, peaks)
+
+motif_matches(motif_ix)
+}

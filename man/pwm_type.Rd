@@ -15,4 +15,9 @@ pwm_type(pwm)
 \description{
 Determines type of PWM
 }
+\examples{
 
+data(example_motifs, package = "motifmatchr")
+pwm_type(example_motifs[[1]])
+}
+\keyword{internal}

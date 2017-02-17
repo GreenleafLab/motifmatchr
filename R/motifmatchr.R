@@ -18,6 +18,7 @@
 #' @useDynLib motifmatchr
 #' @docType package
 #' @import Matrix SummarizedExperiment methods
+#' @importFrom Rcpp sourceCpp
 #' @importFrom S4Vectors DataFrame
 #' @importFrom GenomicRanges GRanges
 #' @importFrom Biostrings getSeq letterFrequency DNAString DNAStringSet
@@ -41,7 +42,11 @@ NULL
 #' @keywords datasets
 #' @name example_motifs
 #' @usage data(example_motifs)
-#' @format \code{\link[TFBSTools]{PFMatrixList}} of length 3
+#' @return \code{\link[TFBSTools]{PFMatrixList}} of length 3
+#' @examples
+#'
+#' data(example_motifs, package = "motifmatchr")
+#'
 NULL
 
 

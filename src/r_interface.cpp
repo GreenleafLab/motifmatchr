@@ -138,10 +138,15 @@ List get_motif_ix_plus(List& mats, const std::vector<std::string> x,
   locs.row(0) = arma::conv_to< arma::urowvec >::from(iloc);
   locs.row(1) = arma::conv_to< arma::urowvec >::from(jloc);
   //arma::vec values2 = arma::conv_to< arma::vec>::from(values);
-  arma::sp_mat score_mat = arma::sp_mat(locs, arma::conv_to< arma::vec>::from(values), nstrings, n, true, true);
+  arma::sp_mat score_mat = arma::sp_mat(locs,
+                                        arma::conv_to< arma::vec>::from(values),
+                                        nstrings, n, true, true);
   arma::vec match_values(iloc.size(), arma::fill::ones);
-  arma::sp_mat match_mat = arma::sp_mat(locs, match_values, nstrings, n, true, true);
-  arma::sp_mat count_mat = arma::sp_mat(locs, arma::conv_to< arma::vec>::from(counts), nstrings, n, true, true);
+  arma::sp_mat match_mat = arma::sp_mat(locs, match_values, nstrings, n, true,
+                                        true);
+  arma::sp_mat count_mat = arma::sp_mat(locs,
+                                        arma::conv_to< arma::vec>::from(counts),
+                                        nstrings, n, true, true);
   return List::create(Named("scores") = score_mat,
                       Named("matches") = match_mat,
                       Named("counts") = count_mat);

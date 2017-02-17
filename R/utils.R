@@ -83,6 +83,11 @@ convert_pwm <- function(pwm, bg_freqs) {
 #' @param pwm PWMatrix object
 #' @return 'log','log2', or 'frequency' depending on type of pwm
 #' @export
+#' @keywords internal
+#' @examples
+#'
+#' data(example_motifs, package = "motifmatchr")
+#' pwm_type(example_motifs[[1]])
 pwm_type <- function(pwm) {
   # Determine whether un-logged, natural log, or log2
   if (isTRUE(all.equal(colSums(as.matrix(pwm)), rep(1, length(pwm))))) {
