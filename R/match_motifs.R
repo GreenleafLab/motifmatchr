@@ -9,9 +9,10 @@
 #' data(example_motifs, package = "motifmatchr")
 #'
 #' # Make a set of peaks
-#' peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
-#'                 ranges = IRanges(start = c(76585873,42772928,100183786),
-#'                                  width = 500))
+#' peaks <- GenomicRanges::GRanges(seqnames = c("chr1","chr2","chr2"),
+#'                 ranges = IRanges::IRanges(start = c(76585873,42772928,
+#'                                           100183786),
+#'                                           width = 500))
 #'
 #' # Get motif matches for example motifs  (using hg19 genome, the default)
 #' motif_ix <- match_motifs(example_motifs, peaks)
@@ -40,9 +41,10 @@ setMethod("motif_matches", c(object = "SummarizedExperiment"),
 #' data(example_motifs, package = "motifmatchr")
 #'
 #' # Make a set of peaks
-#' peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
-#'                 ranges = IRanges(start = c(76585873,42772928,100183786),
-#'                                  width = 500))
+#' peaks <- GenomicRanges::GRanges(seqnames = c("chr1","chr2","chr2"),
+#'                 ranges = IRanges::IRanges(start = c(76585873,42772928,
+#'                                           100183786),
+#'                                           width = 500))
 #'
 #' # Get motif matches for example motifs  (using hg19 genome, the default)
 #' motif_ix <- match_motifs(example_motifs, peaks, out = "scores")
@@ -70,9 +72,10 @@ setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
 #' data(example_motifs, package = "motifmatchr")
 #'
 #' # Make a set of peaks
-#' peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
-#'                 ranges = IRanges(start = c(76585873,42772928,100183786),
-#'                                  width = 500))
+#' peaks <- GenomicRanges::GRanges(seqnames = c("chr1","chr2","chr2"),
+#'                 ranges = IRanges::IRanges(start = c(76585873,42772928,
+#'                                           100183786),
+#'                                           width = 500))
 #'
 #' # Get motif matches for example motifs  (using hg19 genome, the default)
 #' motif_ix <- match_motifs(example_motifs, peaks, out = "scores")
@@ -190,9 +193,10 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 #' data(example_motifs, package = "motifmatchr")
 #'
 #' # Make a set of peaks
-#' peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
-#'                 ranges = IRanges(start = c(76585873,42772928,100183786),
-#'                                  width = 500))
+#' peaks <- GenomicRanges::GRanges(seqnames = c("chr1","chr2","chr2"),
+#'                 ranges = IRanges::IRanges(start = c(76585873,42772928,
+#'                                           100183786),
+#'                                           width = 500))
 #'
 #' # Get motif matches for example motifs  (using hg19 genome, the default)
 #' motif_ix <- match_motifs(example_motifs, peaks)

@@ -18,6 +18,7 @@ Determines type of PWM
 \examples{
 
 data(example_motifs, package = "motifmatchr")
-pwm_type(example_motifs[[1]])
+pwm_type(TFBSTools::toPWM(example_motifs[[1]]))
+pwm_type(TFBSTools::toPWM(example_motifs[[1]], type = "prob"))
 }
 \keyword{internal}
