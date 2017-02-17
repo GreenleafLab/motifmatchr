@@ -2,6 +2,8 @@
 
 # motifmatchr
 
+![](https://travis-ci.com/GreenleafLab/motifmatchr.svg?token=3spqKproZ53fvPn8xxhF&branch=master)
+
 ## Introduction
 
 motifmatchr is an R package for fast motif matching, using C++ code from the MOODS library. The MOODS library was developed by Pasi Rastas, Janne Korhonen, and Petri Martinmäki. The core C++ library from MOODs version MOODS 1.9.3 code has been included in this repository. 
