@@ -2,7 +2,7 @@
 
 # motifmatchr
 
-![](https://travis-ci.com/GreenleafLab/motifmatchr.svg?token=3spqKproZ53fvPn8xxhF&branch=master)
+[![Build Status](https://travis-ci.org/GreenleafLab/motifmatchr.svg?branch=master)](https://travis-ci.org/GreenleafLab/motifmatchr)
 
 ## Introduction
 
