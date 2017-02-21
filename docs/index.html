@@ -58,6 +58,7 @@
 <div id="motifmatchr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#motifmatchr" class="anchor"> </a>motifmatchr</h1></div>
+<p><img src="https://travis-ci.com/GreenleafLab/motifmatchr.svg?token=3spqKproZ53fvPn8xxhF&amp;branch=master"></p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"> </a>Introduction</h2>
@@ -67,9 +68,8 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"> </a>Installation</h2>
 <p>Installation is easiest using the devtools package. The function <code>install_github</code> will install the package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"GreenleafLab/motifmatchr"</span>, <span class="dt">auth_token =</span> <span class="st">"my_token"</span>)</code></pre></div>
-<p>The argument auth_token takes in your github <a href="https://github.com/settings/tokens">personal access token</a>. This token is needed because at the moment this repository is private.</p>
-<p>A number of needed packages are installed in this process. Depending on your repository settings, the Bioconductor dependencies may fail to install. Use <code>setRepositories(graphics=FALSE)</code> to see what repositories you have activated and to add the BioC software repository if need be.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"GreenleafLab/motifmatchr"</span>)</code></pre></div>
+<p>A number of needed packages are installed in this process. One of the dependencies has a system requirement for the gsl library, so if this is not installed already it may need to be installed separately.</p>
 </div>
 <div id="match_motifs" class="section level2">
 <h2 class="hasAnchor">

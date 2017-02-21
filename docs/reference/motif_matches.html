@@ -106,6 +106,24 @@
 </ul></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'>data</span>(<span class='no'>example_motifs</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"motifmatchr"</span>)
+
+<span class='co'># Make a set of peaks</span>
+<span class='no'>peaks</span> <span class='kw'>&lt;-</span> <span class='kw'>GenomicRanges</span><span class='kw'>::</span><span class='fu'>GRanges</span>(<span class='kw'>seqnames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"chr1"</span>,<span class='st'>"chr2"</span>,<span class='st'>"chr2"</span>),
+                <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>IRanges</span><span class='kw'>::</span><span class='fu'>IRanges</span>(<span class='kw'>start</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>76585873</span>,<span class='fl'>42772928</span>,
+                                          <span class='fl'>100183786</span>),
+                                          <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>500</span>))
+
+<span class='co'># Get motif matches for example motifs  (using hg19 genome, the default)</span>
+<span class='no'>motif_ix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='match_motifs.html'>match_motifs</a></span>(<span class='no'>example_motifs</span>, <span class='no'>peaks</span>)
+
+<span class='fu'>motif_matches</span>(<span class='no'>motif_ix</span>)</div><div class='output co'>#&gt; 3 x 3 sparse Matrix of class &quot;lgCMatrix&quot;
+#&gt;      MA0599.1_KLF5 MA0107.1_RELA MA0137.3_STAT1
+#&gt; [1,]             |             |              .
+#&gt; [2,]             |             .              |
+#&gt; [3,]             |             .              |</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -115,7 +133,9 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#methods-by-class-">Methods (by class)</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
