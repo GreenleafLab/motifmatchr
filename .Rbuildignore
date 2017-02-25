@@ -4,3 +4,6 @@
 ^docs$
 ^_pkgdown.yml$
 ^.travis.yml$
+^README.md$
+^.RData$
+^.Rhistory$

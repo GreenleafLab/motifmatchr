@@ -15,7 +15,7 @@
 #' designed specifically for the use case of determining whether many different
 #' sequences/ranges contain many different motifs.
 #'
-#' @useDynLib motifmatchr
+#' @useDynLib motifmatchr, .registration = TRUE
 #' @docType package
 #' @import Matrix SummarizedExperiment methods
 #' @importFrom Rcpp sourceCpp

@@ -1,7 +1,7 @@
 Package: motifmatchr
 Type: Package
 Title: Fast Motif Matching in R
-Version: 0.1.1
+Version: 0.1.2
 Date: 2016-04-07
 Authors@R: c(
     person("Alicia", "Schep", email = "aschep@gmail.com", role = c("aut","cre")),
@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Alicia Schep <aschep@gmail.com>    
 Description: Quickly find motif matches for many motifs and many sequences. 
     Wraps C++ code from the MOODS motif calling library, which was developed
-    by Pasi Rastas, Janne Korhonen, and Petri Martinmaki.
+    by Pasi Rastas, Janne Korhonen, and Petri Martinmäki.
 License: GPL-3 + file LICENSE
 Imports:
     Matrix,
@@ -33,3 +33,5 @@ LinkingTo: Rcpp, RcppArmadillo
 SystemRequirements: C++11
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
+Encoding: UTF-8
+
