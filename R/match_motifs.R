@@ -24,10 +24,10 @@ setGeneric("motif_matches", function(object) standardGeneric("motif_matches"))
 #' @export
 setMethod("motif_matches", c(object = "SummarizedExperiment"),
           function(object) {
-  if ("matches" %ni% assayNames(object))
-    stop("No matches in this object")
-  assays(object)$matches
-})
+              if ("matches" %ni% assayNames(object))
+                  stop("No matches in this object")
+              assays(object)$matches
+          })
 
 
 #' motif_scores
@@ -55,9 +55,9 @@ setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
 #' @describeIn motif_scores method for SummarizedExperiment
 #' @export
 setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
-  if ("scores" %ni% assayNames(object))
-    stop("No scores in this object")
-  assays(object)$scores
+    if ("scores" %ni% assayNames(object))
+        stop("No scores in this object")
+    assays(object)$scores
 })
 
 
@@ -86,9 +86,9 @@ setGeneric("motif_counts", function(object) standardGeneric("motif_counts"))
 #' @describeIn motif_counts method for SummarizedExperiment
 #' @export
 setMethod("motif_counts", c(object = "SummarizedExperiment"), function(object) {
-  if ("counts" %ni% assayNames(object))
-    stop("No counts in this object")
-  assays(object)$counts
+    if ("counts" %ni% assayNames(object))
+        stop("No counts in this object")
+    assays(object)$counts
 })
 
 match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
