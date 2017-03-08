@@ -133,15 +133,13 @@ example_pwms <- do.call(PWMatrixList,lapply(example_motifs, toPWM,
 ### P value
 
 The default p-value cutoff is 0.00005. No adjustment for multiple comparisons is made in this p-value cutoff. This p-value threshold is used to determine a score threshold. 
-
-
 # Outputs
 
 The match_motifs can return three possible outputs, depending on the `out` argument:
 
-1) (Default, with `out = matches`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as "matches" in assays slot of SummarizedExperiment object
+1) (Default, with `out = matches`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as "motif_matches" in assays slot of SummarizedExperiment object. The `motif_matches` methods can be used to extract the boolean matrix.
 
-2) (out = `scores`) Same as (1) plus two additional assays -- a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches.
+2) (out = `scores`) Same as (1) plus two additional assays -- a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches. The `motif_scores` and `motif_counts` methods can be used to access these components.
 
 3) (out = `positions`) A GenomicRangesList with the ranges of all matches within the input ranges/sequences. 
 
@@ -150,9 +148,13 @@ The match_motifs can return three possible outputs, depending on the `out` argum
 ```{r}
 motif_ix <- match_motifs(example_motifs, peaks) 
 print(motif_ix)
+head(motif_matches(motif_ix))
 
 motif_ix_scores <- match_motifs(example_motifs, peaks, out = "scores")
 print(motif_ix_scores)
+head(motif_matches(motif_ix_scores))
+head(motif_scores(motif_ix_scores))
+head(motif_counts(motif_ix_scores))
 
 motif_pos <- match_motifs(example_motifs, peaks, out = "positions") 
 print(motif_pos)

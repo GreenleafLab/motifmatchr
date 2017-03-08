@@ -52,8 +52,8 @@ check_bg <- function(bg_freqs){
 
     if (!is.null(names(bg_freqs))){
         if (!all(names(c("A","C","G","T") %in% bg_freqs))){
-            stop(paste0("Background nucleotide frequencies have names that ",
-                        "don't match nucleotides! (A,C,G,T)"))
+            stop("Background nucleotide frequencies have names that ",
+                        "don't match nucleotides! (A,C,G,T)")
         } else{
             bg_freqs <- bg_freqs[c("A","C","G","T")]
         }
@@ -113,8 +113,8 @@ pwm_type <- function(pwm) {
                                 rep(1, length(pwm)), tolerance = 10^-5))) {
         return("log")
     } else {
-        stop(paste0("Can't determine format of PWM -- should be numeric ",
-                    "frequency summing to 1 or log or log2 odds ratio"))
+        stop("Can't determine format of PWM -- should be numeric ",
+                    "frequency summing to 1 or log or log2 odds ratio")
     }
 }
 

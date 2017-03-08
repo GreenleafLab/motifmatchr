@@ -75,11 +75,12 @@ positions}
 }
 \value{
 Either returns a SummarizedExperiment with a sparse matrix with
- values set to TRUE for a match (if return == 'matches'), a
+ values set to TRUE for a match (if out == 'matches'), a
  SummarizedExperiment with a matches matrix as well as matrices with the
- maximum motif score and total motif counts (if return == 'scores'), or a
- GenomicRanges or IRanges object with all the positions of matches or
- \code{\link[GenomicRanges]{GenomicRanges}} if positions
+ maximum motif score and total motif counts (if out == 'scores'), or a
+ \code{\link[GenomicRanges]{GenomicRangesList}} or
+ \code{\link[IRanges]{IRangesList}} with all the positions of matches
+ (if out == 'positions')
 }
 \description{
 Find motif matches

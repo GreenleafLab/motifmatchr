@@ -24,9 +24,9 @@ setGeneric("motif_matches", function(object) standardGeneric("motif_matches"))
 #' @export
 setMethod("motif_matches", c(object = "SummarizedExperiment"),
           function(object) {
-              if ("matches" %ni% assayNames(object))
-                  stop("No matches in this object")
-              assays(object)$matches
+              if ("motif_matches" %ni% assayNames(object))
+                  stop("No motif_matches in this object")
+              assays(object)$motif_matches
           })
 
 
@@ -55,9 +55,9 @@ setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
 #' @describeIn motif_scores method for SummarizedExperiment
 #' @export
 setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
-    if ("scores" %ni% assayNames(object))
-        stop("No scores in this object")
-    assays(object)$scores
+    if ("motif_scores" %ni% assayNames(object))
+        stop("No motif_scores in this object")
+    assays(object)$motif_scores
 })
 
 
@@ -86,9 +86,9 @@ setGeneric("motif_counts", function(object) standardGeneric("motif_counts"))
 #' @describeIn motif_counts method for SummarizedExperiment
 #' @export
 setMethod("motif_counts", c(object = "SummarizedExperiment"), function(object) {
-    if ("counts" %ni% assayNames(object))
-        stop("No counts in this object")
-    assays(object)$counts
+    if ("motif_counts" %ni% assayNames(object))
+        stop("No motif_counts in this object")
+    assays(object)$motif_counts
 })
 
 match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
@@ -99,7 +99,7 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
         tmp_out <- get_motif_ix(motif_mats, seqs, bg, p.cutoff, w)
         if (is.null(ranges)) {
             out <- SummarizedExperiment(assays =
-                                            list(matches = as(tmp_out,
+                                            list(motif_matches = as(tmp_out,
                                                               "lMatrix")),
                                         colData =
                                             DataFrame(pwm = pwms,
@@ -107,7 +107,7 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
                                                       row.names = names(pwms)))
         } else {
             out <- SummarizedExperiment(assays =
-                                            list(matches = as(tmp_out,
+                                            list(motif_matches = as(tmp_out,
                                                               "lMatrix")),
                                         rowRanges = ranges,
                                         colData =
@@ -117,7 +117,7 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
         }
     } else if (out == "scores") {
         tmp_out <- get_motif_ix_plus(motif_mats, seqs, bg, p.cutoff, w)
-        tmp_out$matches <- as(tmp_out$matches, "lMatrix")
+        tmp_out$motif_matches <- as(tmp_out$motif_matches, "lMatrix")
         if (is.null(ranges)) {
             out <- SummarizedExperiment(assays = tmp_out,
                                         colData =
@@ -143,7 +143,8 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
                                         score = tmp_out$score[m_ix])
                 tmp
             })
-            names(out) <- names(motif_mats)
+            names(out) <- names(pwms)
+            out <- IRangesList(out)
         } else {
             out <- lapply(1:length(motif_mats), function(x) {
                 m_ix <- which(tmp_out$motif_ix == x - 1)
@@ -155,8 +156,9 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
                         strand = tmp_out$strand[m_ix],
                         score = tmp_out$score[m_ix])
             })
+            names(out) <- names(pwms)
+            out <- GRangesList(out)
         }
-        names(out) <- names(pwms)
     }
     return(out)
 }
@@ -182,11 +184,12 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 #' positions
 #' @param ... additional arguments depending on inputs
 #' @return Either returns a SummarizedExperiment with a sparse matrix with
-#'  values set to TRUE for a match (if return == 'matches'), a
+#'  values set to TRUE for a match (if out == 'matches'), a
 #'  SummarizedExperiment with a matches matrix as well as matrices with the
-#'  maximum motif score and total motif counts (if return == 'scores'), or a
-#'  GenomicRanges or IRanges object with all the positions of matches or
-#'  \code{\link[GenomicRanges]{GenomicRanges}} if positions
+#'  maximum motif score and total motif counts (if out == 'scores'), or a
+#'  \code{\link[GenomicRanges]{GenomicRangesList}} or
+#'  \code{\link[IRanges]{IRangesList}} with all the positions of matches
+#'  (if out == 'positions')
 #' @export
 #' @examples
 #'

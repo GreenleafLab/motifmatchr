@@ -147,9 +147,9 @@ List get_motif_ix_plus(List& mats, const std::vector<std::string> x,
   arma::sp_mat count_mat = arma::sp_mat(locs,
                                         arma::conv_to< arma::vec>::from(counts),
                                         nstrings, n, true, true);
-  return List::create(Named("scores") = score_mat,
-                      Named("matches") = match_mat,
-                      Named("counts") = count_mat);
+  return List::create(Named("motif_scores") = score_mat,
+                      Named("motif_matches") = match_mat,
+                      Named("motif_counts") = count_mat);
 }
 
 // [[Rcpp::export]]
