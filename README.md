@@ -13,7 +13,7 @@ motifmatchr is an R package for fast motif matching, using C++ code from the MOO
 Installation is easiest using the devtools package. The function `install_github` will install the package.
 
 ``` r
-devtools::install_github("GreenleafLab/motifmatchr")
+devtools::install_github("GreenleafLab/motifmatchr", ref = "3.3")
 ```
 
 A number of needed packages are installed in this process. One of the dependencies has a system requirement for the gsl library, so if this is not installed already it may need to be installed separately.  
