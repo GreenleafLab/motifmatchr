@@ -1,7 +1,7 @@
 Package: motifmatchr
 Type: Package
 Title: Fast Motif Matching in R
-Version: 0.99.3
+Version: 0.99.4
 Date: 2017-03-08
 Authors@R: c(
     person("Alicia", "Schep", email = "aschep@gmail.com", role = c("aut","cre")),
@@ -23,7 +23,7 @@ Imports:
     GenomicRanges,
     IRanges
 Depends:
-    R (>= 3.3)
+    R (>= 3.4)
 Suggests:
     testthat,
     knitr,
