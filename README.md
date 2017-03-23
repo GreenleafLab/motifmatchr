@@ -13,7 +13,7 @@ motifmatchr is an R package for fast motif matching, using C++ code from the MOO
 Installation is easiest using the devtools package. The function `install_github` will install the package.
 
 ``` r
-devtools::install_github("GreenleafLab/motifmatchr", ref = "3.3")
+devtools::install_github("GreenleafLab/motifmatchr")
 ```
 
 A number of needed packages are installed in this process. One of the dependencies has a system requirement for the gsl library, so if this is not installed already it may need to be installed separately.  
@@ -26,8 +26,7 @@ The primary method of motifmatchr is `match_motifs`.  This method has two mandat
 
 2) Either a set of genomic ranges (GenomicRanges or RangedSummarizedExperiment object) or a set of sequences (either DNAStringSet, DNAString, or simple character vector)
 
-If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used. If using another genome build, the appropraiate BSgenome object for your species should be passed to the `genome` argument.
-
+If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used &mdash; you will have to have installed BSgenome.Hsapiens.UCSC.hg19. If using another genome build, either the appropraiate BSgenome object for your species or a DNAStringSet or FaFile object for your species should be passed to the `genome` argument.
 This function can return three possible outputs, depending on the `out` argument:
 
 1) (Default, with `out = "matches"`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as "matches" in assays slot of SummarizedExperiment object

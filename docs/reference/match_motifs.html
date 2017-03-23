@@ -87,43 +87,48 @@
 
 <span class='co'># S4 method for PWMatrixList,DNAStringSet</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>, <span class='st'>"positions"</span>),
-  <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>,
+  <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PWMatrixList,character</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>, <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>,
-  <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PWMatrixList,DNAString</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>, <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>,
-  <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PWMatrixList,GenomicRanges</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>,
-  <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PWMatrixList,RangedSummarizedExperiment</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>,
-  <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PFMatrixList,ANY</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>,
-  <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PWMatrix,ANY</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>,
-  <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='co'># S4 method for PFMatrix,ANY</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>, <span class='kw'>bg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>,
-  <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
+  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -138,11 +143,14 @@ or character vector</dd>
       <dt>...</dt>
       <dd>additional arguments depending on inputs</dd>
       <dt>genome</dt>
-      <dd>BSgenome object, only used if subect is
-<code><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/GRanges-class'>GenomicRanges</a></code></dd>
+      <dd>BSgenome object, <code><a href='http://www.rdocumentation.org/packages/Biostrings/topics/XStringSet-class'>DNAStringSet</a></code>, or
+<code>[Rsamtools]FaFile</code>, only required if
+subject is <code><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/GRanges-class'>GenomicRanges</a></code> or
+<code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>RangedSummarizedExperiment</a></code> or if bg is set
+to &quot;genome&quot;</dd>
       <dt>bg</dt>
-      <dd>background nucleotide frequencies. if not provided, computed from
-subject</dd>
+      <dd>background nucleotide frequencies. Default is to compute based on
+subject, i.e. the specific set of sequences being evaluated. See Details.</dd>
       <dt>out</dt>
       <dd>what to return? see return section</dd>
       <dt>p.cutoff</dt>
@@ -150,8 +158,11 @@ subject</dd>
       <dt>w</dt>
       <dd>parameter controlling size of window for filtration; default is 7</dd>
       <dt>ranges</dt>
-      <dd>if subject is not GenomicRanges, ranges to use when out is
-positions</dd>
+      <dd>if subject is not GenomicRanges or RangedSummarizedExperiment,
+these ranges can be used to specify what ranges the input sequences
+correspond to. These ranges will be incorporated into the
+SummarizedExperiment output if out is &quot;matches&quot; or &quot;scores&quot; or will be used
+to give absolute positions of motifs if out is &quot;positions&quot;</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -160,9 +171,17 @@ positions</dd>
  values set to TRUE for a match (if out == &#39;matches&#39;), a
  SummarizedExperiment with a matches matrix as well as matrices with the
  maximum motif score and total motif counts (if out == &#39;scores&#39;), or a
- <code><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/GenomicRangesList-class'>GenomicRangesList</a></code> or
+ <code><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/GenomicRangesList-class'>GenomicRangesList</a></code> or a list of
  <code><a href='http://www.rdocumentation.org/packages/IRanges/topics/IRangesList-class'>IRangesList</a></code> with all the positions of matches
  (if out == &#39;positions&#39;)</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Background nucleotide frequencies can be set to &quot;subject&quot; to use the
+subject sequences or ranges for computing the nucleotide frequencies,
+&quot;genome&quot; for using the genomice frequencies (in which case a genome must be
+specified), &quot;even&quot; for using 0.25 for each base, or a numeric vector with A,
+C, G, and T frequencies.</p>
     
     <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
 
@@ -205,6 +224,8 @@ positions</dd>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#methods-by-class-">Methods (by class)</a></li>
       

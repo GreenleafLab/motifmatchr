@@ -22,7 +22,6 @@
 #' @importFrom S4Vectors DataFrame
 #' @importFrom GenomicRanges GRanges GRangesList
 #' @importFrom Biostrings getSeq letterFrequency DNAString DNAStringSet
-#' @importFrom BSgenome.Hsapiens.UCSC.hg19 BSgenome.Hsapiens.UCSC.hg19
 #' @importFrom TFBSTools PWMatrixList toPWM name bg
 #' @importFrom IRanges IRanges IRangesList
 #' @importMethodsFrom GenomicRanges seqnames start

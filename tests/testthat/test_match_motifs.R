@@ -244,7 +244,7 @@ test_that("Can run match_pwm with PFMatrix and DNAString",{
 
 # Output of scores ------------------------------------------------------------
 
-test_that("Can run match_pwm with ouptu of scores",{
+test_that("Can run match_pwm with output of scores",{
     mm_res <- match_motifs(example_motifs, peaks, bg = rep(0.25,4),
                            out = "scores")
     expect_equal(as.matrix(assays(mm_res)$motif_scores), bs_res_scores)
@@ -266,6 +266,14 @@ test_that("Can run match_pwm with output of positions",{
                  do.call(c,lapply(bs_res_positions, function(x) x$scores)))
     expect_is(mm_res, "GRangesList")
 })
+
+test_that("Can run match_pwm with output of positions and no ranges",{
+    mm_res <- match_motifs(example_motifs, ch, bg = rep(0.25,4),
+                           out = "positions")
+    expect_is(mm_res, "list")
+    expect_is(mm_res[[1]], "IRangesList")
+})
+
 
 # Accessors --------------------------------------------------------------------
 

@@ -9,6 +9,34 @@
 setGeneric("get_nuc_freqs",
            function(subject, ...) standardGeneric("get_nuc_freqs"))
 
+#' @import BSgenome
+setMethod("get_nuc_freqs", signature(subject = "BSgenome"),
+          function(subject) {
+              param <- new("BSParams", X = subject, FUN = letterFrequency)
+              nucFreqs <- colSums(do.call(rbind,
+                                          bsapply(param,
+                                                  letters =
+                                                      c("A", "C", "G", "T"))))
+              nucFreqs <- nucFreqs/sum(nucFreqs)
+              return(nucFreqs)
+          })
+
+#' @importFrom Rsamtools scanFaIndex scanFa
+setMethod("get_nuc_freqs", signature(subject = "FaFile"),
+          function(subject) {
+              nucFreqs <- c("A" = 0, "C" = 0, "G" = 0, "T" = 0)
+              chroms <- scanFaIndex(subject)
+              for (i in seq_along(chroms)){
+                  nucFreqs <- nucFreqs +
+                      letterFrequency(scanFa(subject, chroms[i])[[1]],
+                                      letters = c("A", "C", "G", "T"))
+              }
+              nucFreqs <- nucFreqs/sum(nucFreqs)
+              return(nucFreqs)
+          })
+
+
+
 setMethod("get_nuc_freqs", signature(subject = "DNAStringSet"),
           function(subject) {
               nucFreqs <- colSums(letterFrequency(subject,
@@ -59,6 +87,20 @@ check_bg <- function(bg_freqs){
         }
     }
     return(bg_freqs)
+}
+
+get_bg <- function(bg_method, subject, genome){
+    if (bg_method == "input"){
+        bg <- get_nuc_freqs(subject)
+    } else if (bg_method == "genome"){
+        if (is.null(genome))
+            stop("If bg is genome, then a genome argument must ",
+                 "be provided!")
+        bg <- get_nuc_freqs(genome)
+    } else{
+        bg <- rep(0.25,4)
+    }
+    return(bg)
 }
 
 convert_pwm <- function(pwm, bg_freqs) {

@@ -10,7 +10,7 @@ vignette: >
 
 The motifmatchr package is designed for analyzing many sequences and many motifs to find which sequences contain which motifs. It uses the MOODS C++ library (developedby Pasi Rastas, Janne Korhonen, and Petri Martinmaki) internally for motif matching.  The primary method of motifmatchr is `match_motifs`, which takes in motif PWMs/PFMs and genomic ranges or sequences and returns either which ranges/sequences match which motifs or the positions of the matches.  
 
-Compared with alternative motif matching functions available in Bioconductor (e.g. matchPWM in Biostrings or searchSeq in TFBSTools), motifmatchr is designed specifically for the use case of determining whether many different sequences/ranges contain many different motifs. 
+Compared with alternative motif matching functions available in Bioconductor (e.g. matchPWM in Biostrings or searchSeq in TFBSTools), motifmatchr is designed specifically for the use case of determining whether many different sequences/ranges contain many different motifs. For example, when analyzing ChIP-seq or ATAC-seq data one might want to find what motifs in a collection of motifs like the JASPAR database are found in what peaks. 
 
 ## Installation
 
@@ -56,7 +56,7 @@ This method has two mandatory arguments:
 
 2) Either a set of genomic ranges (GenomicRanges or RangedSummarizedExperiment object) or a set of sequences (either DNAStringSet, DNAString, or simple character vector)
 
-If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used. If using another genome build, the appropraiate BSgenome object for your species should be passed to the `genome` argument.
+If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used &mdash; you will have to have installed BSgenome.Hsapiens.UCSC.hg19. If using another genome build, either the appropraiate BSgenome object for your species or a DNAStringSet or FaFile object for your species should be passed to the `genome` argument.
 
 ```{r}
 # using peaks
@@ -108,8 +108,15 @@ all.equal(motif_matches(motif_ix_peaks), motif_matches(motif_ix_character))
 In determining motif matches, background nucleotide frequencies are used.  By default the background frequencies are the nucleotide frequencies within the input sequence -- to use alternate frequencies, supply the `bg` arument to `match_pwms`.  If the input sequences are fairly short (as in our vignette example!), it probably makes sense to use other input frequencies.  Here we show how to use even frequencies:
 
 ```{r}
-motif_ix <- match_motifs(example_motifs, peaks, bg = rep(0.25, 4)) 
+motif_ix <- match_motifs(example_motifs, peaks, bg = "even") 
 ```
+
+We can also choose to use the frequency from the genome.  In this case:
+
+```{r}
+motif_ix <- match_motifs(example_motifs, peaks, bg = "genome") 
+```
+
 
 To specify frequencies per base pair, the order should be "A","C","G", then "T", or those nucleotides should be used as names in the vector.
 
@@ -137,12 +144,11 @@ The default p-value cutoff is 0.00005. No adjustment for multiple comparisons is
 
 The match_motifs can return three possible outputs, depending on the `out` argument:
 
-1) (Default, with `out = matches`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as "motif_matches" in assays slot of SummarizedExperiment object. The `motif_matches` methods can be used to extract the boolean matrix.
+1) (Default, with `out = matches`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as `motif_matches` in assays slot of SummarizedExperiment object. The `motif_matches` methods can be used to extract the boolean matrix. If either the `subject` argument is a GenomicRanges or RangedSummarizedExperiment object OR a `ranges` argument is provided, then a RangedSummarizedExeriment is returned rather than a SummarizedExperiment.  
 
 2) (out = `scores`) Same as (1) plus two additional assays -- a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches. The `motif_scores` and `motif_counts` methods can be used to access these components.
 
-3) (out = `positions`) A GenomicRangesList with the ranges of all matches within the input ranges/sequences. 
-
+3) (out = `positions`) A GenomicRangesList with the ranges of all matches within the input ranges/sequences. Note that if the `subject` argument is a character vector, DNAStringSet, or DNAString and a `ranges` argument corresponding to the ranges represented by the sequences is NOT provided, then a list of IRangesList objects will be returned instead with the relative positions withing the sequences.
 
 
 ```{r}

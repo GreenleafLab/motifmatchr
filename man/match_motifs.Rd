@@ -16,36 +16,41 @@
 match_motifs(pwms, subject, ...)
 
 \S4method{match_motifs}{PWMatrixList,DNAStringSet}(pwms, subject,
-  genome = NULL, bg = NULL, out = c("matches", "scores", "positions"),
-  p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = NULL, bg = c("subject", "genome", "even"), out = c("matches",
+  "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PWMatrixList,character}(pwms, subject, genome = NULL,
-  bg = NULL, out = c("matches", "scores", "positions"), p.cutoff = 5e-05,
-  w = 7, ranges = NULL)
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PWMatrixList,DNAString}(pwms, subject, genome = NULL,
-  bg = NULL, out = c("matches", "scores", "positions"), p.cutoff = 5e-05,
-  w = 7, ranges = NULL)
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PWMatrixList,GenomicRanges}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19, bg = NULL, out = c("matches",
-  "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PWMatrixList,RangedSummarizedExperiment}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19, bg = NULL, out = c("matches",
-  "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PFMatrixList,ANY}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19, bg = NULL, out = c("matches",
-  "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PWMatrix,ANY}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19, bg = NULL, out = c("matches",
-  "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PFMatrix,ANY}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19, bg = NULL, out = c("matches",
-  "scores", "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+  bg = c("subject", "genome", "even"), out = c("matches", "scores",
+  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 }
 \arguments{
 \item{pwms}{either \code{\link[TFBSTools]{PFMatrix}},
@@ -58,11 +63,14 @@ or character vector}
 
 \item{...}{additional arguments depending on inputs}
 
-\item{genome}{BSgenome object, only used if subect is
-\code{\link[GenomicRanges]{GenomicRanges}}}
+\item{genome}{BSgenome object, \code{\link[Biostrings]{DNAStringSet}}, or
+\code{\link[Rsamtools]{FaFile}}, only required if
+subject is \code{\link[GenomicRanges]{GenomicRanges}} or
+\code{\link[SummarizedExperiment]{RangedSummarizedExperiment}} or if bg is set
+to "genome"}
 
-\item{bg}{background nucleotide frequencies. if not provided, computed from
-subject}
+\item{bg}{background nucleotide frequencies. Default is to compute based on
+subject, i.e. the specific set of sequences being evaluated. See Details.}
 
 \item{out}{what to return? see return section}
 
@@ -70,20 +78,30 @@ subject}
 
 \item{w}{parameter controlling size of window for filtration; default is 7}
 
-\item{ranges}{if subject is not GenomicRanges, ranges to use when out is
-positions}
+\item{ranges}{if subject is not GenomicRanges or RangedSummarizedExperiment,
+these ranges can be used to specify what ranges the input sequences
+correspond to. These ranges will be incorporated into the
+SummarizedExperiment output if out is "matches" or "scores" or will be used
+to give absolute positions of motifs if out is "positions"}
 }
 \value{
 Either returns a SummarizedExperiment with a sparse matrix with
  values set to TRUE for a match (if out == 'matches'), a
  SummarizedExperiment with a matches matrix as well as matrices with the
  maximum motif score and total motif counts (if out == 'scores'), or a
- \code{\link[GenomicRanges]{GenomicRangesList}} or
+ \code{\link[GenomicRanges]{GenomicRangesList}} or a list of
  \code{\link[IRanges]{IRangesList}} with all the positions of matches
  (if out == 'positions')
 }
 \description{
 Find motif matches
+}
+\details{
+Background nucleotide frequencies can be set to "subject" to use the
+subject sequences or ranges for computing the nucleotide frequencies,
+"genome" for using the genomice frequencies (in which case a genome must be
+specified), "even" for using 0.25 for each base, or a numeric vector with A,
+C, G, and T frequencies.
 }
 \section{Methods (by class)}{
 \itemize{
