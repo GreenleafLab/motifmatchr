@@ -62,45 +62,53 @@ setMethod("get_nuc_freqs", signature(subject = "character"),
           })
 
 
+## validate genome input
+
+setGeneric("validate_genome_input",
+           function(genome) standardGeneric("validate_genome_input"))
+
+setMethod("validate_genome_input", signature(genome = "FaFile"),
+          function(genome) {
+              return(genome)
+          })
+
+setMethod("validate_genome_input", signature(genome = "BSgenome"),
+          function(genome) {
+              return(genome)
+          })
+
+setMethod("validate_genome_input", signature(genome = "DNAStringSet"),
+          function(genome) {
+              return(genome)
+          })
+
+setMethod("validate_genome_input", signature(genome = "character"),
+          function(genome) {
+              return(getBSgenome(genome))
+          })
+
+setMethod("validate_genome_input", signature(genome = "character"),
+          function(genome) {
+              if (any(is.na(genome)))
+                  stop("No genome provided")
+              if (length(genome) > 1){
+                  stopifnot(all(genome == genome[[1]]))
+                  genome <- genome[[1]]
+              }
+              return(getBSgenome(genome))
+          })
+
+setMethod("validate_genome_input", signature(genome = "ANY"),
+          function(genome) {
+              stop("genome input must be a BSgenome, DNAStringSet, or FaFile",
+                   "object or a string recognized by getBSgenome")
+          })
+
 ## convert_pwm to adjust background in pwm model -------------------------------
 
 convert_pwms <- function(pwms, bg_freqs) {
     stopifnot(inherits(pwms, "PWMatrixList"))
     lapply(pwms, convert_pwm, bg_freqs)
-}
-
-
-
-check_bg <- function(bg_freqs){
-    if (length(bg_freqs) != 4)
-        stop("Invalid background frequencies -- should be length 4")
-    if (!all.equal(sum(bg_freqs),1) || min(bg_freqs) <= 0){
-        stop("Invalid background frequencies. Should sum to 1")
-    }
-
-    if (!is.null(names(bg_freqs))){
-        if (!all(names(c("A","C","G","T") %in% bg_freqs))){
-            stop("Background nucleotide frequencies have names that ",
-                        "don't match nucleotides! (A,C,G,T)")
-        } else{
-            bg_freqs <- bg_freqs[c("A","C","G","T")]
-        }
-    }
-    return(bg_freqs)
-}
-
-get_bg <- function(bg_method, subject, genome){
-    if (bg_method == "input"){
-        bg <- get_nuc_freqs(subject)
-    } else if (bg_method == "genome"){
-        if (is.null(genome))
-            stop("If bg is genome, then a genome argument must ",
-                 "be provided!")
-        bg <- get_nuc_freqs(genome)
-    } else{
-        bg <- rep(0.25,4)
-    }
-    return(bg)
 }
 
 convert_pwm <- function(pwm, bg_freqs) {
@@ -123,6 +131,41 @@ convert_pwm <- function(pwm, bg_freqs) {
     }
     return(out)
 }
+
+# make sure background is correct ----------------------------------------------
+check_bg <- function(bg_freqs){
+    if (length(bg_freqs) != 4)
+        stop("Invalid background frequencies -- should be length 4")
+    if (!all.equal(sum(bg_freqs),1) || min(bg_freqs) <= 0){
+        stop("Invalid background frequencies. Should sum to 1")
+    }
+
+    if (!is.null(names(bg_freqs))){
+        if (!all(names(c("A","C","G","T") %in% bg_freqs))){
+            stop("Background nucleotide frequencies have names that ",
+                 "don't match nucleotides! (A,C,G,T)")
+        } else{
+            bg_freqs <- bg_freqs[c("A","C","G","T")]
+        }
+    }
+    return(bg_freqs)
+}
+
+get_bg <- function(bg_method, subject, genome){
+    if (bg_method == "input"){
+        bg <- get_nuc_freqs(subject)
+    } else if (bg_method == "genome"){
+        if (is.null(genome))
+            stop("If bg is genome, then a genome argument must ",
+                 "be provided!")
+        genome <- validate_genome_input(genome)
+        bg <- get_nuc_freqs(genome)
+    } else{
+        bg <- rep(0.25,4)
+    }
+    return(bg)
+}
+
 
 #' pwm_type
 #'

@@ -8,6 +8,7 @@
 \alias{match_motifs,PWMatrixList,DNAString-method}
 \alias{match_motifs,PWMatrixList,GenomicRanges-method}
 \alias{match_motifs,PWMatrixList,RangedSummarizedExperiment-method}
+\alias{match_motifs,PWMatrixList,BSgenomeViews-method}
 \alias{match_motifs,PFMatrixList,ANY-method}
 \alias{match_motifs,PWMatrix,ANY-method}
 \alias{match_motifs,PFMatrix,ANY-method}
@@ -28,29 +29,24 @@ match_motifs(pwms, subject, ...)
   "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
 
 \S4method{match_motifs}{PWMatrixList,GenomicRanges}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-  bg = c("subject", "genome", "even"), out = c("matches", "scores",
-  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = GenomeInfoDb::genome(subject), bg = c("subject", "genome",
+  "even"), out = c("matches", "scores", "positions"), p.cutoff = 5e-05,
+  w = 7)
 
 \S4method{match_motifs}{PWMatrixList,RangedSummarizedExperiment}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-  bg = c("subject", "genome", "even"), out = c("matches", "scores",
-  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  genome = GenomeInfoDb::genome(subject), bg = c("subject", "genome",
+  "even"), out = c("matches", "scores", "positions"), p.cutoff = 5e-05,
+  w = 7)
 
-\S4method{match_motifs}{PFMatrixList,ANY}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+\S4method{match_motifs}{PWMatrixList,BSgenomeViews}(pwms, subject,
   bg = c("subject", "genome", "even"), out = c("matches", "scores",
-  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+  "positions"), p.cutoff = 5e-05, w = 7)
 
-\S4method{match_motifs}{PWMatrix,ANY}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-  bg = c("subject", "genome", "even"), out = c("matches", "scores",
-  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+\S4method{match_motifs}{PFMatrixList,ANY}(pwms, subject, ...)
 
-\S4method{match_motifs}{PFMatrix,ANY}(pwms, subject,
-  genome = BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-  bg = c("subject", "genome", "even"), out = c("matches", "scores",
-  "positions"), p.cutoff = 5e-05, w = 7, ranges = NULL)
+\S4method{match_motifs}{PWMatrix,ANY}(pwms, subject, ...)
+
+\S4method{match_motifs}{PFMatrix,ANY}(pwms, subject, ...)
 }
 \arguments{
 \item{pwms}{either \code{\link[TFBSTools]{PFMatrix}},
@@ -64,7 +60,8 @@ or character vector}
 \item{...}{additional arguments depending on inputs}
 
 \item{genome}{BSgenome object, \code{\link[Biostrings]{DNAStringSet}}, or
-\code{\link[Rsamtools]{FaFile}}, only required if
+\code{\link[Rsamtools]{FaFile}}, or short string signifying genome build
+recognized by \code{\link[BSgenome]{getBSgenome}}. Only required if
 subject is \code{\link[GenomicRanges]{GenomicRanges}} or
 \code{\link[SummarizedExperiment]{RangedSummarizedExperiment}} or if bg is set
 to "genome"}
@@ -115,6 +112,8 @@ C, G, and T frequencies.
 
 \item \code{pwms = PWMatrixList,subject = RangedSummarizedExperiment}: PWMatrixList/RangedSummarizedExperiment
 
+\item \code{pwms = PWMatrixList,subject = BSgenomeViews}: PWMatrixList/BSGenomeViews
+
 \item \code{pwms = PFMatrixList,subject = ANY}: PFMatrixList/ANY
 
 \item \code{pwms = PWMatrix,subject = ANY}: PWMatrix/ANY
@@ -132,7 +131,7 @@ peaks <- GenomicRanges::GRanges(seqnames = c("chr1","chr2","chr2"),
                                           100183786),
                                           width = 500))
 
-# Get motif matches for example motifs  (using hg19 genome, the default)
-motif_ix <- match_motifs(example_motifs, peaks)
+# Get motif matches for example motifs
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19")
 
 }

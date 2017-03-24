@@ -22,7 +22,8 @@ Imports:
     SummarizedExperiment,
     GenomicRanges,
     IRanges,
-    Rsamtools
+    Rsamtools,
+    GenomeInfoDb
 Depends:
     R (>= 3.3)
 Suggests:

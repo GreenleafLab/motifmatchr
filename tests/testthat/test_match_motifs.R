@@ -123,13 +123,14 @@ names(bs_res_positions) <- names(example_motifs)
 # Output of matches ------------------------------------------------------------
 
 test_that("Can run match_pwm with PFMatrixList and peaks",{
-  mm_res <- match_motifs(example_motifs, peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, peaks, genome = "hg19",
+                         bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrixList and SummarizedExperiment",{
-  mm_res <- match_motifs(example_motifs, se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs, se, genome = "hg19", bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
@@ -154,13 +155,13 @@ test_that("Can run match_pwm with PFMatrixList and DNAString",{
 
 
 test_that("Can run match_pwm with PWMatrixList and peaks",{
-  mm_res <- match_motifs(example_pwms, peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, peaks, genome = "hg19", bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrixList and SummarizedExperiment",{
-  mm_res <- match_motifs(example_pwms, se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms, se, genome = "hg19", bg = rep(0.25,4))
   expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
@@ -184,13 +185,15 @@ test_that("Can run match_pwm with PWMatrixList and DNAString",{
 
 
 test_that("Can run match_pwm with PWMatrix and peaks",{
-  mm_res <- match_motifs(example_pwms[[3]], peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], peaks, genome = "hg19",
+                         bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PWMatrix and SummarizedExperiment",{
-  mm_res <- match_motifs(example_pwms[[3]], se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_pwms[[3]], genome = "hg19", se,
+                         bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
@@ -214,13 +217,13 @@ test_that("Can run match_pwm with PWMatrix and DNAString",{
 
 
 test_that("Can run match_pwm with PFMatrix and peaks",{
-  mm_res <- match_motifs(example_motifs[[3]], peaks, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], peaks, genome = "hg19", bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 test_that("Can run match_pwm with PFMatrix and SummarizedExperiment",{
-  mm_res <- match_motifs(example_motifs[[3]], se, bg = rep(0.25,4))
+  mm_res <- match_motifs(example_motifs[[3]], genome = "hg19", se, bg = rep(0.25,4))
   expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
@@ -245,7 +248,8 @@ test_that("Can run match_pwm with PFMatrix and DNAString",{
 # Output of scores ------------------------------------------------------------
 
 test_that("Can run match_pwm with output of scores",{
-    mm_res <- match_motifs(example_motifs, peaks, bg = rep(0.25,4),
+    mm_res <- match_motifs(example_motifs, peaks, genome = "hg19",
+                           bg = rep(0.25,4),
                            out = "scores")
     expect_equal(as.matrix(assays(mm_res)$motif_scores), bs_res_scores)
     expect_is(mm_res, "SummarizedExperiment")
@@ -254,7 +258,8 @@ test_that("Can run match_pwm with output of scores",{
 # Output of positions ----------------------------------------------------------
 
 test_that("Can run match_pwm with output of positions",{
-    mm_res <- match_motifs(example_motifs, peaks, bg = rep(0.25,4),
+    mm_res <- match_motifs(example_motifs, peaks, genome = "hg19",
+                           bg = rep(0.25,4),
                            out = "positions")
     expect_equal(do.call(c,lapply(mm_res, start)),
                  do.call(c,lapply(bs_res_positions, start)))

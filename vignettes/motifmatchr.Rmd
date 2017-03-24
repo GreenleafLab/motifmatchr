@@ -31,6 +31,7 @@ Example use case of motifmatchr with a set of peaks and a few motifs. For additi
 library(motifmatchr)
 library(GenomicRanges)
 library(SummarizedExperiment)
+library(BSgenome)
 
 # load some example motifs
 data(example_motifs, package = "motifmatchr") 
@@ -40,12 +41,12 @@ peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
                  ranges = IRanges(start = c(76585873,42772928,100183786),
                                   width = 500))
 
-# Get motif matches for example motifs in peaks (using default hg19 genome)
-motif_ix <- match_motifs(example_motifs, peaks) 
+# Get motif matches for example motifs in peaks 
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19") 
 motif_matches(motif_ix) # Extract matches matrix from result
 
 # Get motif positions within peaks for example motifs in peaks 
-motif_pos <- match_motifs(example_motifs, peaks, out = "positions") 
+motif_pos <- match_motifs(example_motifs, peaks, genome = "hg19", out = "positions") 
 ```
 
 # Inputs
@@ -60,7 +61,7 @@ If the second argument is a set of genomic ranges, a genome sequence is also req
 
 ```{r}
 # using peaks
-motif_ix_peaks <- match_motifs(example_motifs, peaks) 
+motif_ix_peaks <- match_motifs(example_motifs, peaks, genome = "hg19") 
 
 # using SummarizedExperiment
 example_SummarizedExperiment <- 
@@ -70,19 +71,31 @@ example_SummarizedExperiment <-
                          rowRanges = peaks)
 
 motif_ix_SummarizedExperiment <- match_motifs(example_motifs,
-                                              example_SummarizedExperiment) 
+                                              example_SummarizedExperiment, 
+                                              genome = "hg19") 
 
 all.equal(motif_matches(motif_ix_peaks),
           motif_matches(motif_ix_SummarizedExperiment))
 ```
 
 ```{r, message = FALSE}
+# using BSgenomeViews
+
+example_BSgenomeViews <- BSgenomeViews(BSgenome.Hsapiens.UCSC.hg19, peaks)
+
+motif_ix_BSgenomeViews <- match_motifs(example_motifs, example_BSgenomeViews) 
+
+
+all.equal(motif_matches(motif_ix_peaks), motif_matches(motif_ix_BSgenomeViews))
+```
+
+
+```{r, message = FALSE}
 # using DNAStringSet
 library(Biostrings)
 library(BSgenome.Hsapiens.UCSC.hg19)
 
-example_DNAStringSet <- getSeq(BSgenome.Hsapiens.UCSC.hg19,
-                          peaks)
+example_DNAStringSet <- getSeq(BSgenome.Hsapiens.UCSC.hg19, peaks)
 
 motif_ix_DNAStringSet <- match_motifs(example_motifs, example_DNAStringSet) 
 
@@ -108,20 +121,22 @@ all.equal(motif_matches(motif_ix_peaks), motif_matches(motif_ix_character))
 In determining motif matches, background nucleotide frequencies are used.  By default the background frequencies are the nucleotide frequencies within the input sequence -- to use alternate frequencies, supply the `bg` arument to `match_pwms`.  If the input sequences are fairly short (as in our vignette example!), it probably makes sense to use other input frequencies.  Here we show how to use even frequencies:
 
 ```{r}
-motif_ix <- match_motifs(example_motifs, peaks, bg = "even") 
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19", bg = "even") 
 ```
 
 We can also choose to use the frequency from the genome.  In this case:
 
 ```{r}
-motif_ix <- match_motifs(example_motifs, peaks, bg = "genome") 
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19", bg = "genome") 
 ```
+
+A genome must be specified if using `bg = "genome"`!
 
 
 To specify frequencies per base pair, the order should be "A","C","G", then "T", or those nucleotides should be used as names in the vector.
 
 ```{r}
-motif_ix <- match_motifs(example_motifs, peaks, 
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
                          bg = c("A" = 0.2,"C" = 0.3, "G" = 0.3, "T" = 0.2)) 
 ```
 
@@ -152,17 +167,19 @@ The match_motifs can return three possible outputs, depending on the `out` argum
 
 
 ```{r}
-motif_ix <- match_motifs(example_motifs, peaks) 
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19") 
 print(motif_ix)
 head(motif_matches(motif_ix))
 
-motif_ix_scores <- match_motifs(example_motifs, peaks, out = "scores")
+motif_ix_scores <- match_motifs(example_motifs, peaks, 
+                                genome = "hg19", out = "scores")
 print(motif_ix_scores)
 head(motif_matches(motif_ix_scores))
 head(motif_scores(motif_ix_scores))
 head(motif_counts(motif_ix_scores))
 
-motif_pos <- match_motifs(example_motifs, peaks, out = "positions") 
+motif_pos <- match_motifs(example_motifs, peaks, genome = "hg19", 
+                          out = "positions") 
 print(motif_pos)
 ```
 

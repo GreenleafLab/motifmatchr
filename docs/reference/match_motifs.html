@@ -102,33 +102,29 @@
 
 <span class='co'># S4 method for PWMatrixList,GenomicRanges</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
-  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>GenomeInfoDb</span><span class='kw'>::</span><span class='fu'>genome</span>(<span class='no'>subject</span>), <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>,
+  <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>,
+  <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>)
 
 <span class='co'># S4 method for PWMatrixList,RangedSummarizedExperiment</span>
 <span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
+  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>GenomeInfoDb</span><span class='kw'>::</span><span class='fu'>genome</span>(<span class='no'>subject</span>), <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>,
+  <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>, <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>,
+  <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>)
+
+<span class='co'># S4 method for PWMatrixList,BSgenomeViews</span>
+<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
   <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
-  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>)
 
 <span class='co'># S4 method for PFMatrixList,ANY</span>
-<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
-  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for PWMatrix,ANY</span>
-<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
-  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>, <span class='no'>...</span>)
 
 <span class='co'># S4 method for PFMatrix,ANY</span>
-<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>,
-  <span class='kw'>genome</span> <span class='kw'>=</span> <span class='kw'>BSgenome.Hsapiens.UCSC.hg19</span><span class='kw'>::</span><span class='no'>BSgenome.Hsapiens.UCSC.hg19</span>,
-  <span class='kw'>bg</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"subject"</span>, <span class='st'>"genome"</span>, <span class='st'>"even"</span>), <span class='kw'>out</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"matches"</span>, <span class='st'>"scores"</span>,
-  <span class='st'>"positions"</span>), <span class='kw'>p.cutoff</span> <span class='kw'>=</span> <span class='fl'>5e-05</span>, <span class='kw'>w</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>ranges</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>match_motifs</span>(<span class='no'>pwms</span>, <span class='no'>subject</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -144,7 +140,8 @@ or character vector</dd>
       <dd>additional arguments depending on inputs</dd>
       <dt>genome</dt>
       <dd>BSgenome object, <code><a href='http://www.rdocumentation.org/packages/Biostrings/topics/XStringSet-class'>DNAStringSet</a></code>, or
-<code>[Rsamtools]FaFile</code>, only required if
+<code><a href='http://www.rdocumentation.org/packages/Rsamtools/topics/FaFile-class'>FaFile</a></code>, or short string signifying genome build
+recognized by <code><a href='http://www.rdocumentation.org/packages/BSgenome/topics/available.genomes'>getBSgenome</a></code>. Only required if
 subject is <code><a href='http://www.rdocumentation.org/packages/GenomicRanges/topics/GRanges-class'>GenomicRanges</a></code> or
 <code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>RangedSummarizedExperiment</a></code> or if bg is set
 to &quot;genome&quot;</dd>
@@ -196,6 +193,8 @@ C, G, and T frequencies.</p>
     <p></li>
 <li> <code>pwms = PWMatrixList,subject = RangedSummarizedExperiment</code>: PWMatrixList/RangedSummarizedExperiment</p>
     <p></li>
+<li> <code>pwms = PWMatrixList,subject = BSgenomeViews</code>: PWMatrixList/BSGenomeViews</p>
+    <p></li>
 <li> <code>pwms = PFMatrixList,subject = ANY</code>: PFMatrixList/ANY</p>
     <p></li>
 <li> <code>pwms = PWMatrix,subject = ANY</code>: PWMatrix/ANY</p>
@@ -215,8 +214,8 @@ C, G, and T frequencies.</p>
                                           <span class='fl'>100183786</span>),
                                           <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>500</span>))
 
-<span class='co'># Get motif matches for example motifs  (using hg19 genome, the default)</span>
-<span class='no'>motif_ix</span> <span class='kw'>&lt;-</span> <span class='fu'>match_motifs</span>(<span class='no'>example_motifs</span>, <span class='no'>peaks</span>)</div></pre>
+<span class='co'># Get motif matches for example motifs</span>
+<span class='no'>motif_ix</span> <span class='kw'>&lt;-</span> <span class='fu'>match_motifs</span>(<span class='no'>example_motifs</span>, <span class='no'>peaks</span>, <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>"hg19"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

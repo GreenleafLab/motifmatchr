@@ -24,6 +24,8 @@
 #' @importFrom Biostrings getSeq letterFrequency DNAString DNAStringSet
 #' @importFrom TFBSTools PWMatrixList toPWM name bg
 #' @importFrom IRanges IRanges IRangesList
+#' @importFrom BSgenome getBSgenome
+#' @importFrom GenomeInfoDb genome
 #' @importMethodsFrom GenomicRanges seqnames start
 #' @importMethodsFrom TFBSTools as.matrix
 #' @importClassesFrom Biostrings DNAString DNAStringSet

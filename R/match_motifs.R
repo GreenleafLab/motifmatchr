@@ -14,8 +14,8 @@
 #'                                           100183786),
 #'                                           width = 500))
 #'
-#' # Get motif matches for example motifs  (using hg19 genome, the default)
-#' motif_ix <- match_motifs(example_motifs, peaks)
+#' # Get motif matches for example motifs
+#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19")
 #'
 #' motif_matches(motif_ix)
 setGeneric("motif_matches", function(object) standardGeneric("motif_matches"))
@@ -46,8 +46,9 @@ setMethod("motif_matches", c(object = "SummarizedExperiment"),
 #'                                           100183786),
 #'                                           width = 500))
 #'
-#' # Get motif matches for example motifs  (using hg19 genome, the default)
-#' motif_ix <- match_motifs(example_motifs, peaks, out = "scores")
+#' # Get motif matches for example motifs
+#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
+#'                          out = "scores")
 #'
 #' motif_scores(motif_ix)
 setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
@@ -77,8 +78,9 @@ setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
 #'                                           100183786),
 #'                                           width = 500))
 #'
-#' # Get motif matches for example motifs  (using hg19 genome, the default)
-#' motif_ix <- match_motifs(example_motifs, peaks, out = "scores")
+#' # Get motif matches for example motifs
+#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
+#'                          out = "scores")
 #'
 #' motif_counts(motif_ix)
 setGeneric("motif_counts", function(object) standardGeneric("motif_counts"))
@@ -178,7 +180,8 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 #' \code{\link[Biostrings]{DNAStringSet}}, \code{\link[Biostrings]{DNAString}},
 #' or character vector
 #' @param genome BSgenome object, \code{\link[Biostrings]{DNAStringSet}}, or
-#' \code{\link[Rsamtools]{FaFile}}, only required if
+#' \code{\link[Rsamtools]{FaFile}}, or short string signifying genome build
+#' recognized by \code{\link[BSgenome]{getBSgenome}}. Only required if
 #' subject is \code{\link[GenomicRanges]{GenomicRanges}} or
 #' \code{\link[SummarizedExperiment]{RangedSummarizedExperiment}} or if bg is set
 #' to "genome"
@@ -216,8 +219,8 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 #'                                           100183786),
 #'                                           width = 500))
 #'
-#' # Get motif matches for example motifs  (using hg19 genome, the default)
-#' motif_ix <- match_motifs(example_motifs, peaks)
+#' # Get motif matches for example motifs
+#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19")
 #'
 setGeneric("match_motifs",
            function(pwms, subject, ...) standardGeneric("match_motifs"))
@@ -300,14 +303,13 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
                                     subject = "GenomicRanges"),
           function(pwms,
                    subject,
-                   genome =
-                       BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+                   genome = GenomeInfoDb::genome(subject),
                    bg = c("subject","genome","even"),
                    out = c("matches", "scores", "positions"),
-                   p.cutoff = 5e-05, w = 7,
-                   ranges = NULL) {
+                   p.cutoff = 5e-05, w = 7) {
               out <- match.arg(out)
               GenomicRanges::strand(subject) <- "+"
+              genome <- validate_genome_input(genome)
               seqs <- getSeq(genome, subject)
 
               if (is.numeric(bg)){
@@ -327,15 +329,43 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
 setMethod("match_motifs", signature(pwms = "PWMatrixList",
                                     subject = "RangedSummarizedExperiment"),
           function(pwms, subject,
-                   genome =
-                       BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
+                   genome = GenomeInfoDb::genome(subject),
                    bg = c("subject","genome","even"),
                    out = c("matches", "scores", "positions"),
-                   p.cutoff = 5e-05, w = 7,
-                   ranges = NULL) {
+                   p.cutoff = 5e-05, w = 7) {
               out <- match.arg(out)
-              match_motifs(pwms, rowRanges(subject), genome, bg, out, p.cutoff,
-                           w)
+              match_motifs(pwms, rowRanges(subject),
+                           genome = genome,
+                           bg = bg,
+                           out = out,
+                           p.cutoff = p.cutoff,
+                           w = w)
+          })
+
+#' @describeIn match_motifs PWMatrixList/BSGenomeViews
+#' @export
+setMethod("match_motifs", signature(pwms = "PWMatrixList",
+                                    subject = "BSgenomeViews"),
+          function(pwms,
+                   subject,
+                   bg = c("subject","genome","even"),
+                   out = c("matches", "scores", "positions"),
+                   p.cutoff = 5e-05, w = 7) {
+
+              out <- match.arg(out)
+              seqs <- as.character(subject)
+              ranges <- BSgenome::granges(subject)
+
+              if (is.numeric(bg)){
+                  bg <- check_bg(bg)
+              } else{
+                  bg_method <- match.arg(bg)
+                  bg <- get_bg(bg_method, subject, BSgenome::subject(subject))
+              }
+
+              seqs <- as.character(subject)
+
+              match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
           })
 
 ### PFMatrixList ---------------------------------------------------------------
@@ -346,23 +376,13 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
 setMethod("match_motifs", signature(pwms = "PFMatrixList", subject = "ANY"),
           function(pwms,
                    subject,
-                   genome =
-                       BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-                   bg = c("subject","genome","even"),
-                   out = c("matches", "scores", "positions"),
-                   p.cutoff = 5e-05, w = 7, ranges = NULL) {
-              out <- match.arg(out)
-              if (!is.numeric(bg)){
-                  bg <- match.arg(bg)
-              }
+                   ...) {
+
+
               pwms_list <- do.call(PWMatrixList, lapply(pwms, toPWM))
               match_motifs(pwms_list,
                            subject,
-                           genome = genome,
-                           bg = bg,
-                           out = out,
-                           p.cutoff = p.cutoff,
-                           w = w, ranges = ranges)
+                           ...)
           })
 
 # Single PWM input -------------------------------------------------------------
@@ -372,23 +392,12 @@ setMethod("match_motifs", signature(pwms = "PFMatrixList", subject = "ANY"),
 setMethod("match_motifs", signature(pwms = "PWMatrix", subject = "ANY"),
           function(pwms,
                    subject,
-                   genome =
-                       BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-                   bg = c("subject","genome","even"),
-                   out = c("matches", "scores", "positions"), p.cutoff = 5e-05,
-                   w = 7, ranges = NULL) {
-              out <- match.arg(out)
-              if (!is.numeric(bg)){
-                  bg <- match.arg(bg)
-              }
+                   ...) {
+
               pwms_list <- PWMatrixList(pwms)
               match_motifs(pwms_list,
                            subject,
-                           genome = genome,
-                           bg = bg,
-                           out = out,
-                           p.cutoff = p.cutoff,
-                           w = w, ranges = ranges)
+                           ...)
           })
 
 
@@ -400,24 +409,10 @@ setMethod("match_motifs",
           signature(pwms = "PFMatrix", subject = "ANY"),
           function(pwms,
                    subject,
-                   genome =
-                       BSgenome.Hsapiens.UCSC.hg19::BSgenome.Hsapiens.UCSC.hg19,
-                   bg = c("subject","genome","even"),
-                   out = c("matches", "scores", "positions"),
-                   p.cutoff = 5e-05,
-                   w = 7,
-                   ranges = NULL) {
-              out <- match.arg(out)
-              if (!is.numeric(bg)){
-                  bg <- match.arg(bg)
-              }
+                   ...) {
+
               pwms_list <- PWMatrixList(toPWM(pwms))
               match_motifs(pwms_list,
                            subject,
-                           genome = genome,
-                           bg = bg,
-                           out = out,
-                           p.cutoff = p.cutoff,
-                           w = w,
-                           ranges = ranges)
+                           ...)
           })

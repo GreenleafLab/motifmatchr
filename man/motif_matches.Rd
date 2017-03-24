@@ -34,8 +34,8 @@ peaks <- GenomicRanges::GRanges(seqnames = c("chr1","chr2","chr2"),
                                           100183786),
                                           width = 500))
 
-# Get motif matches for example motifs  (using hg19 genome, the default)
-motif_ix <- match_motifs(example_motifs, peaks)
+# Get motif matches for example motifs
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19")
 
 motif_matches(motif_ix)
 }

@@ -116,8 +116,9 @@
                                           <span class='fl'>100183786</span>),
                                           <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>500</span>))
 
-<span class='co'># Get motif matches for example motifs  (using hg19 genome, the default)</span>
-<span class='no'>motif_ix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='match_motifs.html'>match_motifs</a></span>(<span class='no'>example_motifs</span>, <span class='no'>peaks</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"scores"</span>)
+<span class='co'># Get motif matches for example motifs</span>
+<span class='no'>motif_ix</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='match_motifs.html'>match_motifs</a></span>(<span class='no'>example_motifs</span>, <span class='no'>peaks</span>, <span class='kw'>genome</span> <span class='kw'>=</span> <span class='st'>"hg19"</span>,
+                         <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"scores"</span>)
 
 <span class='fu'>motif_counts</span>(<span class='no'>motif_ix</span>)</div><div class='output co'>#&gt; 3 x 3 sparse Matrix of class &quot;dgCMatrix&quot;
 #&gt;      MA0599.1_KLF5 MA0107.1_RELA MA0137.3_STAT1

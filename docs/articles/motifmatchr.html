@@ -80,6 +80,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(motifmatchr)
 <span class="kw">library</span>(GenomicRanges)
 <span class="kw">library</span>(SummarizedExperiment)
+<span class="kw">library</span>(BSgenome)
 
 <span class="co"># load some example motifs</span>
 <span class="kw">data</span>(example_motifs, <span class="dt">package =</span> <span class="st">"motifmatchr"</span>) 
@@ -89,8 +90,8 @@ peaks &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class=
                  <span class="dt">ranges =</span> <span class="kw">IRanges</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">76585873</span>,<span class="dv">42772928</span>,<span class="dv">100183786</span>),
                                   <span class="dt">width =</span> <span class="dv">500</span>))
 
-<span class="co"># Get motif matches for example motifs in peaks (using default hg19 genome)</span>
-motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks) 
+<span class="co"># Get motif matches for example motifs in peaks </span>
+motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>) 
 <span class="kw"><a href="../reference/motif_matches.html">motif_matches</a></span>(motif_ix) <span class="co"># Extract matches matrix from result</span></code></pre></div>
 <pre><code>## 3 x 3 sparse Matrix of class "lgCMatrix"
 ##      MA0599.1_KLF5 MA0107.1_RELA MA0137.3_STAT1
@@ -98,7 +99,7 @@ motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ma
 ## [2,]             .             .              |
 ## [3,]             .             .              |</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get motif positions within peaks for example motifs in peaks </span>
-motif_pos &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">out =</span> <span class="st">"positions"</span>) </code></pre></div>
+motif_pos &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>, <span class="dt">out =</span> <span class="st">"positions"</span>) </code></pre></div>
 </div>
 </div>
 <div id="inputs" class="section level1">
@@ -111,7 +112,7 @@ motif_pos &lt;-<span class="st"> </span><span class="kw"><a href="../reference/m
 </ol>
 <p>If the second argument is a set of genomic ranges, a genome sequence is also required. By default <a href="https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html">BSgenome.Hsapiens.UCSC.hg19</a> is used — you will have to have installed BSgenome.Hsapiens.UCSC.hg19. If using another genome build, either the appropraiate BSgenome object for your species or a DNAStringSet or FaFile object for your species should be passed to the <code>genome</code> argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using peaks</span>
-motif_ix_peaks &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks) 
+motif_ix_peaks &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>) 
 
 <span class="co"># using SummarizedExperiment</span>
 example_SummarizedExperiment &lt;-<span class="st"> </span>
@@ -121,17 +122,26 @@ example_SummarizedExperiment &lt;-<span class="st"> </span>
                          <span class="dt">rowRanges =</span> peaks)
 
 motif_ix_SummarizedExperiment &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs,
-                                              example_SummarizedExperiment) 
+                                              example_SummarizedExperiment, 
+                                              <span class="dt">genome =</span> <span class="st">"hg19"</span>) 
 
 <span class="kw">all.equal</span>(<span class="kw"><a href="../reference/motif_matches.html">motif_matches</a></span>(motif_ix_peaks),
           <span class="kw"><a href="../reference/motif_matches.html">motif_matches</a></span>(motif_ix_SummarizedExperiment))</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using BSgenomeViews</span>
+
+example_BSgenomeViews &lt;-<span class="st"> </span><span class="kw">BSgenomeViews</span>(BSgenome.Hsapiens.UCSC.hg19, peaks)
+
+motif_ix_BSgenomeViews &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, example_BSgenomeViews) 
+
+
+<span class="kw">all.equal</span>(<span class="kw"><a href="../reference/motif_matches.html">motif_matches</a></span>(motif_ix_peaks), <span class="kw"><a href="../reference/motif_matches.html">motif_matches</a></span>(motif_ix_BSgenomeViews))</code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using DNAStringSet</span>
 <span class="kw">library</span>(Biostrings)
 <span class="kw">library</span>(BSgenome.Hsapiens.UCSC.hg19)
 
-example_DNAStringSet &lt;-<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Hsapiens.UCSC.hg19,
-                          peaks)
+example_DNAStringSet &lt;-<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Hsapiens.UCSC.hg19, peaks)
 
 motif_ix_DNAStringSet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, example_DNAStringSet) 
 
@@ -152,11 +162,12 @@ motif_ix_character &lt;-<span class="st"> </span><span class="kw"><a href="../re
 <h3 class="hasAnchor">
 <html><body><a href="#background-nucleotide-frequencies" class="anchor"> </a></body></html>Background nucleotide frequencies</h3>
 <p>In determining motif matches, background nucleotide frequencies are used. By default the background frequencies are the nucleotide frequencies within the input sequence – to use alternate frequencies, supply the <code>bg</code> arument to <code>match_pwms</code>. If the input sequences are fairly short (as in our vignette example!), it probably makes sense to use other input frequencies. Here we show how to use even frequencies:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">bg =</span> <span class="st">"even"</span>) </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>, <span class="dt">bg =</span> <span class="st">"even"</span>) </code></pre></div>
 <p>We can also choose to use the frequency from the genome. In this case:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">bg =</span> <span class="st">"genome"</span>) </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>, <span class="dt">bg =</span> <span class="st">"genome"</span>) </code></pre></div>
+<p>A genome must be specified if using <code>bg = "genome"</code>!</p>
 <p>To specify frequencies per base pair, the order should be “A”,“C”,“G”, then “T”, or those nucleotides should be used as names in the vector.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>,
                          <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">"A"</span> =<span class="st"> </span><span class="fl">0.2</span>,<span class="st">"C"</span> =<span class="st"> </span><span class="fl">0.3</span>, <span class="st">"G"</span> =<span class="st"> </span><span class="fl">0.3</span>, <span class="st">"T"</span> =<span class="st"> </span><span class="fl">0.2</span>)) </code></pre></div>
 <p>PWMatrix objects have associated background frequencies that can be accessed using the <code>bg</code> function. If the supplied background frequencies to <code>match_pwms</code> do not match the frequencies in the input PWM, then the PWM is adjusted to refect the supplied background frequencies. The calculated score is based on this adjusted PWM and not the direct input PWM. To ensure the score is computed using the exact PWM input, simply make sure the background frequencies passed to match_motifs match hose used for the input PWM and stored in bg slot of PWMatrix object.</p>
 </div>
@@ -178,7 +189,7 @@ example_pwms &lt;-<span class="st"> </span><span class="kw">do.call</span>(PWMat
 <li><p>(out = <code>scores</code>) Same as (1) plus two additional assays – a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches. The <code>motif_scores</code> and <code>motif_counts</code> methods can be used to access these components.</p></li>
 <li><p>(out = <code>positions</code>) A GenomicRangesList with the ranges of all matches within the input ranges/sequences. Note that if the <code>subject</code> argument is a character vector, DNAStringSet, or DNAString and a <code>ranges</code> argument corresponding to the ranges represented by the sequences is NOT provided, then a list of IRangesList objects will be returned instead with the relative positions withing the sequences.</p></li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks) 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>) 
 <span class="kw">print</span>(motif_ix)</code></pre></div>
 <pre><code>## class: RangedSummarizedExperiment 
 ## dim: 3 3 
@@ -194,7 +205,8 @@ example_pwms &lt;-<span class="st"> </span><span class="kw">do.call</span>(PWMat
 ## [1,]             .             |              .
 ## [2,]             .             .              |
 ## [3,]             .             .              |</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix_scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">out =</span> <span class="st">"scores"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_ix_scores &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, 
+                                <span class="dt">genome =</span> <span class="st">"hg19"</span>, <span class="dt">out =</span> <span class="st">"scores"</span>)
 <span class="kw">print</span>(motif_ix_scores)</code></pre></div>
 <pre><code>## class: RangedSummarizedExperiment 
 ## dim: 3 3 
@@ -222,7 +234,8 @@ example_pwms &lt;-<span class="st"> </span><span class="kw">do.call</span>(PWMat
 ## [1,]             .             1              .
 ## [2,]             .             .              1
 ## [3,]             .             .              2</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_pos &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">out =</span> <span class="st">"positions"</span>) 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">motif_pos &lt;-<span class="st"> </span><span class="kw"><a href="../reference/match_motifs.html">match_motifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>, 
+                          <span class="dt">out =</span> <span class="st">"positions"</span>) 
 <span class="kw">print</span>(motif_pos)</code></pre></div>
 <pre><code>## GRangesList object of length 3:
 ## $MA0599.1_KLF5 
@@ -250,7 +263,7 @@ example_pwms &lt;-<span class="st"> </span><span class="kw">do.call</span>(PWMat
 <h2 class="hasAnchor">
 <html><body><a href="#session-info" class="anchor"> </a></body></html>Session Info</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Sys.Date</span>()</code></pre></div>
-<pre><code>## [1] "2017-03-22"</code></pre>
+<pre><code>## [1] "2017-03-28"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.3.1 (2016-06-21)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
@@ -269,53 +282,52 @@ example_pwms &lt;-<span class="st"> </span><span class="kw">do.call</span>(PWMat
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] motifmatchr_0.99.4                SummarizedExperiment_1.4.0       
-##  [3] Biobase_2.34.0                    testthat_1.0.2                   
-##  [5] BSgenome.Hsapiens.UCSC.hg19_1.4.0 BSgenome_1.42.0                  
-##  [7] rtracklayer_1.34.1                GenomicRanges_1.26.2             
-##  [9] GenomeInfoDb_1.10.3               TFBSTools_1.12.1                 
-## [11] Biostrings_2.42.1                 XVector_0.14.0                   
-## [13] IRanges_2.8.1                     S4Vectors_0.12.1                 
-## [15] BiocGenerics_0.20.0              
+##  [1] SummarizedExperiment_1.4.0        Biobase_2.34.0                   
+##  [3] motifmatchr_0.99.5                BSgenome.Hsapiens.UCSC.hg19_1.4.0
+##  [5] BSgenome_1.42.0                   rtracklayer_1.34.1               
+##  [7] GenomicRanges_1.26.2              GenomeInfoDb_1.10.3              
+##  [9] TFBSTools_1.12.1                  Biostrings_2.42.1                
+## [11] XVector_0.14.0                    IRanges_2.8.1                    
+## [13] S4Vectors_0.12.1                  BiocGenerics_0.20.0              
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-6                DirichletMultinomial_1.16.0
-##  [3] devtools_1.12.0.9000        httr_1.2.1                 
-##  [5] rprojroot_1.2               highlight_0.4.7            
-##  [7] tools_3.3.1                 backports_1.0.5            
-##  [9] R6_2.2.0                    seqLogo_1.40.0             
-## [11] DBI_0.5-1                   lazyeval_0.2.0             
-## [13] colorspace_1.3-2            withr_1.0.2                
-## [15] git2r_0.18.0                xml2_1.1.1                 
-## [17] desc_1.1.0                  caTools_1.17.1             
-## [19] scales_0.4.1                readr_1.0.0                
-## [21] callr_1.0.0.9000            pkgdown_0.1.0.9000         
-## [23] commonmark_1.1              stringr_1.2.0              
-## [25] digest_0.6.12.1             Rsamtools_1.26.1           
-## [27] rmarkdown_1.3               R.utils_2.5.0              
-## [29] htmltools_0.3.5             RSQLite_1.1-2              
-## [31] VGAM_1.0-3                  BiocInstaller_1.24.0       
-## [33] BiocParallel_1.8.1          gtools_3.5.0               
-## [35] R.oo_1.21.0                 RCurl_1.95-4.8             
-## [37] magrittr_1.5                GO.db_3.4.0                
-## [39] Matrix_1.2-7.1              Rcpp_0.12.9                
-## [41] munsell_0.4.3               R.methodsS3_1.7.1          
-## [43] stringi_1.1.2               whisker_0.3-2              
-## [45] yaml_2.1.14                 zlibbioc_1.20.0            
-## [47] pkgbuild_0.0.0.9000         plyr_1.8.4                 
-## [49] grid_3.3.1                  crayon_1.3.2               
-## [51] CNEr_1.10.1                 lattice_0.20-34            
-## [53] splines_3.3.1               annotate_1.52.1            
-## [55] KEGGREST_1.14.0             knitr_1.15.1               
-## [57] reshape2_1.4.2              pkgload_0.0.0.9000         
-## [59] TFMPvalue_0.0.6             XML_3.98-1.5               
-## [61] evaluate_0.10               RcppArmadillo_0.7.700.0.0  
-## [63] png_0.1-7                   gtable_0.2.0               
-## [65] poweRlaw_0.70.0             purrr_0.2.2                
-## [67] assertthat_0.1              ggplot2_2.2.1              
-## [69] xtable_1.8-2                roxygen2_6.0.1             
-## [71] tibble_1.2                  GenomicAlignments_1.10.0   
-## [73] AnnotationDbi_1.36.2        memoise_1.0.0</code></pre>
+##  [1] httr_1.2.1                  pkgload_0.0.0.9000         
+##  [3] VGAM_1.0-3                  splines_3.3.1              
+##  [5] R.utils_2.5.0               gtools_3.5.0               
+##  [7] assertthat_0.1              Rsamtools_1.26.1           
+##  [9] yaml_2.1.14                 DirichletMultinomial_1.16.0
+## [11] highlight_0.4.7             RSQLite_1.1-2              
+## [13] backports_1.0.5             lattice_0.20-34            
+## [15] digest_0.6.12.1             colorspace_1.3-2           
+## [17] htmltools_0.3.5             Matrix_1.2-7.1             
+## [19] R.oo_1.21.0                 plyr_1.8.4                 
+## [21] XML_3.98-1.5                devtools_1.12.0.9000       
+## [23] zlibbioc_1.20.0             purrr_0.2.2                
+## [25] xtable_1.8-2                GO.db_3.4.0                
+## [27] scales_0.4.1                whisker_0.3-2              
+## [29] BiocParallel_1.8.1          tibble_1.2                 
+## [31] annotate_1.52.1             KEGGREST_1.14.0            
+## [33] ggplot2_2.2.1               withr_1.0.2                
+## [35] TFMPvalue_0.0.6             lazyeval_0.2.0             
+## [37] magrittr_1.5                crayon_1.3.2               
+## [39] evaluate_0.10               memoise_1.0.0              
+## [41] poweRlaw_0.70.0             R.methodsS3_1.7.1          
+## [43] xml2_1.1.1                  RcppArmadillo_0.7.700.0.0  
+## [45] pkgbuild_0.0.0.9000         CNEr_1.10.1                
+## [47] tools_3.3.1                 stringr_1.2.0              
+## [49] munsell_0.4.3               AnnotationDbi_1.36.2       
+## [51] callr_1.0.0.9000            pkgdown_0.1.0.9000         
+## [53] caTools_1.17.1              grid_3.3.1                 
+## [55] RCurl_1.95-4.8              rmarkdown_1.3              
+## [57] bitops_1.0-6                testthat_1.0.2             
+## [59] gtable_0.2.0                DBI_0.5-1                  
+## [61] roxygen2_6.0.1              reshape2_1.4.2             
+## [63] R6_2.2.0                    GenomicAlignments_1.10.0   
+## [65] knitr_1.15.1                seqLogo_1.40.0             
+## [67] commonmark_1.1              rprojroot_1.2              
+## [69] readr_1.0.0                 desc_1.1.0                 
+## [71] stringi_1.1.2               Rcpp_0.12.9                
+## [73] png_0.1-7</code></pre>
 </div>
 </div>
 </div>

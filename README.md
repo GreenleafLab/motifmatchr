@@ -26,8 +26,9 @@ The primary method of motifmatchr is `match_motifs`.  This method has two mandat
 
 2) Either a set of genomic ranges (GenomicRanges or RangedSummarizedExperiment object) or a set of sequences (either DNAStringSet, DNAString, or simple character vector)
 
-If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used &mdash; you will have to have installed BSgenome.Hsapiens.UCSC.hg19. If using another genome build, either the appropraiate BSgenome object for your species or a DNAStringSet or FaFile object for your species should be passed to the `genome` argument.
-This function can return three possible outputs, depending on the `out` argument:
+If the second argument is a set of genomic ranges, a genome sequence is also required. If the genomic ranges include seqinfo, by default the genome specified in the seqinfo will be used (if the relevant BSgenome package is installed). Otherwise you can supply either a short string specifying the genome build if the corresponding BSgenome object is installed, a BSgenone object, a DNAStringSet object, or a FaFile object pointint to a fasta file.  
+
+The method can return three possible outputs, depending on the `out` argument:
 
 1) (Default, with `out = "matches"`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as "matches" in assays slot of SummarizedExperiment object
 
@@ -49,12 +50,13 @@ peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
                  ranges = IRanges(start = c(76585873,42772928,100183786),
                                   width = 500))
 
-# Get motif matches for example motifs in peaks (using hg19 genome, the default)
-motif_ix <- match_motifs(example_motifs, peaks) 
+# Get motif matches for example motifs in peaks
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19") 
 motif_matches(motif_ix) # Extract matches matrix from SummarizedExperiment result
 
 # Get motif positions within peaks for example motifs in peaks 
-motif_ix <- match_motifs(example_motifs, peaks, out = "positions") 
+motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
+                         out = "positions") 
 ```
 
 ## More information
