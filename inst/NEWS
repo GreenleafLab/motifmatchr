@@ -1,4 +1,4 @@
-# motifmatchr 0.99.5
+# motifmatchr 0.99.6
 
 Genome no longer defaults to hg19 when subject is GenomicRanges or
 RangedSummarizedExperiment, but tries to pull assoicated genome build from
