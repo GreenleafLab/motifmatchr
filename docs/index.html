@@ -91,24 +91,24 @@
 <div id="quickstart" class="section level2">
 <h2 class="hasAnchor">
 <a href="#quickstart" class="anchor"> </a>Quickstart</h2>
-<pre class="{r}"><code>library(motifmatchr)
-library(GenomicRanges)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(motifmatchr)
+<span class="kw">library</span>(GenomicRanges)
 
-# load some example motifs
-data(example_motifs, package = "motifmatchr") 
+<span class="co"># load some example motifs</span>
+<span class="kw">data</span>(example_motifs, <span class="dt">package =</span> <span class="st">"motifmatchr"</span>) 
 
-# Make a set of peaks
-peaks &lt;- GRanges(seqnames = c("chr1","chr2","chr2"),
-                 ranges = IRanges(start = c(76585873,42772928,100183786),
-                                  width = 500))
+<span class="co"># Make a set of peaks</span>
+peaks &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames =</span> <span class="kw">c</span>(<span class="st">"chr1"</span>,<span class="st">"chr2"</span>,<span class="st">"chr2"</span>),
+                 <span class="dt">ranges =</span> <span class="kw">IRanges</span>(<span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">76585873</span>,<span class="dv">42772928</span>,<span class="dv">100183786</span>),
+                                  <span class="dt">width =</span> <span class="dv">500</span>))
 
-# Get motif matches for example motifs in peaks
-motif_ix &lt;- matchMotifs(example_motifs, peaks, genome = "hg19") 
-motifMatches(motif_ix) # Extract matches matrix from SummarizedExperiment result
+<span class="co"># Get motif matches for example motifs in peaks</span>
+motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="reference/matchMotifs.html">matchMotifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>) 
+<span class="kw"><a href="reference/motifMatches.html">motifMatches</a></span>(motif_ix) <span class="co"># Extract matches matrix from SummarizedExperiment result</span>
 
-# Get motif positions within peaks for example motifs in peaks 
-motif_ix &lt;- matchMotifs(example_motifs, peaks, genome = "hg19",
-                         out = "positions") </code></pre>
+<span class="co"># Get motif positions within peaks for example motifs in peaks </span>
+motif_ix &lt;-<span class="st"> </span><span class="kw"><a href="reference/matchMotifs.html">matchMotifs</a></span>(example_motifs, peaks, <span class="dt">genome =</span> <span class="st">"hg19"</span>,
+                         <span class="dt">out =</span> <span class="st">"positions"</span>) </code></pre></div>
 </div>
 <div id="more-information" class="section level2">
 <h2 class="hasAnchor">

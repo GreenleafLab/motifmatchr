@@ -7,16 +7,16 @@ templates:
     bootswatch: cerulean
 
 reference:
-  - title: match_motifs
+  - title: matchMotifs
     desc:  Main function to match motifs
     contents:
-    - match_motifs
+    - matchMotifs
   - title: Accessors
     desc: Accessor functions for results
     contents:
-    - motif_matches
-    - motif_scores
-    - motif_counts
+    - motifMatches
+    - motifScores
+    - motifCounts
   - title: Data
     desc: Some sample motifs
     contents:

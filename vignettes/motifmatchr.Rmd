@@ -12,19 +12,6 @@ The motifmatchr package is designed for analyzing many sequences and many motifs
 
 Compared with alternative motif matching functions available in Bioconductor (e.g. matchPWM in Biostrings or searchSeq in TFBSTools), motifmatchr is designed specifically for the use case of determining whether many different sequences/ranges contain many different motifs. For example, when analyzing ChIP-seq or ATAC-seq data one might want to find what motifs in a collection of motifs like the JASPAR database are found in what peaks. 
 
-
-
-## Installation
-
-Installation is easiest using the devtools package. The function `install_github` will install the package.
-
-``` r
-devtools::install_github("GreenleafLab/motifmatchr")
-```
-
-A number of needed packages are installed in this process. One of the dependencies has a system requirement for the gsl library, so if this is not installed already it may need to be installed separately.  
-
-
 ## Quickstart
 
 Example use case of motifmatchr with a set of peaks and a few motifs. For additional options for inputs & outputs, see remainder of vignette.
@@ -48,7 +35,8 @@ motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19")
 motifMatches(motif_ix) # Extract matches matrix from result
 
 # Get motif positions within peaks for example motifs in peaks 
-motif_pos <- matchMotifs(example_motifs, peaks, genome = "hg19", out = "positions") 
+motif_pos <- matchMotifs(example_motifs, peaks, genome = "hg19", 
+                         out = "positions") 
 ```
 
 # Inputs

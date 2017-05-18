@@ -42,7 +42,7 @@ The method can return three possible outputs, depending on the `out` argument:
 
 ## Quickstart
 
-```{r}
+```r
 library(motifmatchr)
 library(GenomicRanges)
 
