@@ -4,13 +4,14 @@
 
 "%ni%" <- Negate("%in%")
 
-## get_nuc_freqs function to find background sequence --------------------------
+## getNucFreqs function to find background sequence --------------------------
 
-setGeneric("get_nuc_freqs",
-           function(subject, ...) standardGeneric("get_nuc_freqs"))
+
+setGeneric("getNucFreqs",
+           function(subject, ...) standardGeneric("getNucFreqs"))
 
 #' @import BSgenome
-setMethod("get_nuc_freqs", signature(subject = "BSgenome"),
+setMethod("getNucFreqs", signature(subject = "BSgenome"),
           function(subject) {
               param <- new("BSParams", X = subject, FUN = letterFrequency)
               nucFreqs <- colSums(do.call(rbind,
@@ -22,7 +23,7 @@ setMethod("get_nuc_freqs", signature(subject = "BSgenome"),
           })
 
 #' @importFrom Rsamtools scanFaIndex scanFa
-setMethod("get_nuc_freqs", signature(subject = "FaFile"),
+setMethod("getNucFreqs", signature(subject = "FaFile"),
           function(subject) {
               nucFreqs <- c("A" = 0, "C" = 0, "G" = 0, "T" = 0)
               chroms <- scanFaIndex(subject)
@@ -37,7 +38,7 @@ setMethod("get_nuc_freqs", signature(subject = "FaFile"),
 
 
 
-setMethod("get_nuc_freqs", signature(subject = "DNAStringSet"),
+setMethod("getNucFreqs", signature(subject = "DNAStringSet"),
           function(subject) {
               nucFreqs <- colSums(letterFrequency(subject,
                                                   c("A", "C", "G", "T")))
@@ -45,19 +46,26 @@ setMethod("get_nuc_freqs", signature(subject = "DNAStringSet"),
               return(nucFreqs)
           })
 
-setMethod("get_nuc_freqs", signature(subject = "DNAString"),
+setMethod("getNucFreqs", signature(subject = "DNAString"),
           function(subject) {
               nucFreqs <- letterFrequency(subject, c("A", "C", "G", "T"))
               nucFreqs <- nucFreqs/sum(nucFreqs)
               return(nucFreqs)
           })
 
-setMethod("get_nuc_freqs", signature(subject = "character"),
+setMethod("getNucFreqs", signature(subject = "BSgenomeViews"),
+          function(subject) {
+              nucFreqs <- letterFrequency(subject, c("A", "C", "G", "T"))
+              nucFreqs <- nucFreqs/sum(nucFreqs)
+              return(nucFreqs)
+          })
+
+setMethod("getNucFreqs", signature(subject = "character"),
           function(subject) {
               if (length(subject) == 1) {
-                  return(get_nuc_freqs(DNAString(subject)))
+                  return(getNucFreqs(DNAString(subject)))
               } else {
-                  return(get_nuc_freqs(DNAStringSet(subject)))
+                  return(getNucFreqs(DNAStringSet(subject)))
               }
           })
 
@@ -112,7 +120,7 @@ convert_pwms <- function(pwms, bg_freqs) {
 }
 
 convert_pwm <- function(pwm, bg_freqs) {
-    type <- pwm_type(pwm)
+    type <- pwmType(pwm)
     out <- as.matrix(pwm)
     if (type == "prob") {
         norm_mat <- matrix(bg_freqs, nrow = 4, ncol = length(pwm),
@@ -152,22 +160,26 @@ check_bg <- function(bg_freqs){
 }
 
 get_bg <- function(bg_method, subject, genome){
-    if (bg_method == "input"){
-        bg <- get_nuc_freqs(subject)
+    if (bg_method == "subject"){
+        bg <- getNucFreqs(subject)
     } else if (bg_method == "genome"){
         if (is.null(genome))
             stop("If bg is genome, then a genome argument must ",
                  "be provided!")
         genome <- validate_genome_input(genome)
-        bg <- get_nuc_freqs(genome)
+        bg <- getNucFreqs(genome)
     } else{
         bg <- rep(0.25,4)
     }
     return(bg)
 }
 
+pwm_type <- function(...){
+    .Deprecated("pwmType")
+    pwmType(...)
+}
 
-#' pwm_type
+#' pwmType
 #'
 #' Determines type of PWM
 #' @param pwm PWMatrix object
@@ -177,9 +189,9 @@ get_bg <- function(bg_method, subject, genome){
 #' @examples
 #'
 #' data(example_motifs, package = "motifmatchr")
-#' pwm_type(TFBSTools::toPWM(example_motifs[[1]]))
-#' pwm_type(TFBSTools::toPWM(example_motifs[[1]], type = "prob"))
-pwm_type <- function(pwm) {
+#' pwmType(TFBSTools::toPWM(example_motifs[[1]]))
+#' pwmType(TFBSTools::toPWM(example_motifs[[1]], type = "prob"))
+pwmType <- function(pwm) {
     # Determine whether un-logged, natural log, or log2
     if (isTRUE(all.equal(colSums(as.matrix(pwm)), rep(1, length(pwm))))) {
         return("frequency")

@@ -8,6 +8,10 @@
 
 motifmatchr is an R package for fast motif matching, using C++ code from the MOODS library. The MOODS library was developed by Pasi Rastas, Janne Korhonen, and Petri Martinmäki. The core C++ library from MOODs version MOODS 1.9.3 code has been included in this repository. 
 
+## Note on recent function name changes
+
+The motifmatchr package recently changed to switch over to camelCase from snake_case.  All exported functions now use camelCase, e.g. `match_motifs` is now `matchMotifs`. If following the current documentation but using an earlier version of the package, either update the package or be aware of the discrepancy. This change was made to comply with Bioconductor naming preferences.    
+
 ## Installation
 
 Installation is easiest using the devtools package. The function `install_github` will install the package.
@@ -18,9 +22,9 @@ devtools::install_github("GreenleafLab/motifmatchr")
 
 A number of needed packages are installed in this process. One of the dependencies has a system requirement for the gsl library, so if this is not installed already it may need to be installed separately.  
 
-## match_motifs
+## matchMotifs
 
-The primary method of motifmatchr is `match_motifs`.  This method has two mandatory arguments:
+The primary method of motifmatchr is `matchMotifs`.  This method has two mandatory arguments:
 
 1) Position weight matrices or position frequency matrices, stored in the PWMatrix, PFMatrix, PWMatrixList, or PFMatrixList objects from the TFBSTools package
 
@@ -51,11 +55,11 @@ peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
                                   width = 500))
 
 # Get motif matches for example motifs in peaks
-motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19") 
-motif_matches(motif_ix) # Extract matches matrix from SummarizedExperiment result
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19") 
+motifMatches(motif_ix) # Extract matches matrix from SummarizedExperiment result
 
 # Get motif positions within peaks for example motifs in peaks 
-motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19",
                          out = "positions") 
 ```
 

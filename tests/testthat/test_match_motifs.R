@@ -1,4 +1,4 @@
-context("match_motifs")
+context("matchMotifs")
 
 data("example_motifs", package = "motifmatchr")
 
@@ -97,23 +97,34 @@ bs_method_positions <- function(motif, s, score, ranges){
     if ((length(forward_matches) !=0) || (length(reverse_matches) != 0)){
         franges <- as(forward_matches,"IRanges")
         rranges <- as(reverse_matches,"IRanges")
-        out <- GenomicRanges::GRanges(seqnames = seqnames(ranges),
-                                      ranges = IRanges::IRanges(start = c(start(ranges) + start(franges) - 1,
-                                                                          end(ranges) - end(rranges) + 1),
-                                                               end = c(start(ranges) + end(franges) - 1,
-                                                                       end(ranges) - start(rranges) + 1)),
-                                      strand = c(rep("+",length(franges)),rep("-",length(rranges))),
-                                      scores = c(S4Vectors::mcols(forward_matches)$score,
-                                                  S4Vectors::mcols(reverse_matches)$score))
+        out <-
+            GenomicRanges::GRanges(seqnames = seqnames(ranges),
+                                   ranges =
+                                       IRanges::IRanges(start = c(start(ranges) + start(franges) - 1,
+                                                                  end(ranges) - end(rranges) + 1),
+                                                        end = c(start(ranges) + end(franges) - 1,
+                                                                end(ranges) - start(rranges) + 1)),
+                                   strand =
+                                       c(rep("+",length(franges)),
+                                         rep("-",length(rranges))),
+                                   scores =
+                                       c(S4Vectors::mcols(forward_matches)$score,
+                                         S4Vectors::mcols(reverse_matches)$score))
         out
     } else{
         GenomicRanges::GRanges()
     }
 }
 
-m1p <- do.call(c,lapply(seq_along(dss), function(x) bs_method_positions(motif1,dss[[x]], thresh[1], peaks[x])))
-m2p <- do.call(c,lapply(seq_along(dss), function(x) bs_method_positions(motif2,dss[[x]], thresh[2], peaks[x])))
-m3p <- do.call(c,lapply(seq_along(dss), function(x) bs_method_positions(motif3,dss[[x]], thresh[3], peaks[x])))
+m1p <- do.call(c,lapply(seq_along(dss),
+                        function(x) bs_method_positions(motif1,dss[[x]],
+                                                        thresh[1], peaks[x])))
+m2p <- do.call(c,lapply(seq_along(dss),
+                        function(x) bs_method_positions(motif2,dss[[x]],
+                                                        thresh[2], peaks[x])))
+m3p <- do.call(c,lapply(seq_along(dss),
+                        function(x) bs_method_positions(motif3,dss[[x]],
+                                                        thresh[3], peaks[x])))
 
 bs_res_positions <- list(m1p,m2p,m3p)
 names(bs_res_positions) <- names(example_motifs)
@@ -122,143 +133,160 @@ names(bs_res_positions) <- names(example_motifs)
 
 # Output of matches ------------------------------------------------------------
 
-test_that("Can run match_pwm with PFMatrixList and peaks",{
-  mm_res <- match_motifs(example_motifs, peaks, genome = "hg19",
+test_that("Can run matchMotifs with PFMatrixList and peaks",{
+  mm_res <- matchMotifs(example_motifs, peaks,
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
                          bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrixList and SummarizedExperiment",{
-  mm_res <- match_motifs(example_motifs, se, genome = "hg19", bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PFMatrixList and SummarizedExperiment",{
+  mm_res <- matchMotifs(example_motifs, se,
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
+                        bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrixList and DNAStringSet",{
-  mm_res <- match_motifs(example_motifs, dss, bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PFMatrixList and DNAStringSet",{
+  mm_res <- matchMotifs(example_motifs, dss, bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrixList and character string",{
-  mm_res <- match_motifs(example_motifs, ch, bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PFMatrixList and character string",{
+  mm_res <- matchMotifs(example_motifs, ch, bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrixList and DNAString",{
-  mm_res <- match_motifs(example_motifs, dss[[3]], bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches)[1,], bs_res[3,])
+test_that("Can run matchMotifs with PFMatrixList and DNAString",{
+  mm_res <- matchMotifs(example_motifs, dss[[3]], bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches)[1,], bs_res[3,])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
 
-test_that("Can run match_pwm with PWMatrixList and peaks",{
-  mm_res <- match_motifs(example_pwms, peaks, genome = "hg19", bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PWMatrixList and peaks",{
+  mm_res <- matchMotifs(example_pwms, peaks,
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
+                        bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrixList and SummarizedExperiment",{
-  mm_res <- match_motifs(example_pwms, se, genome = "hg19", bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PWMatrixList and SummarizedExperiment",{
+  mm_res <- matchMotifs(example_pwms, se,
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
+                        bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrixList and DNAStringSet",{
-  mm_res <- match_motifs(example_pwms, dss, bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PWMatrixList and DNAStringSet",{
+  mm_res <- matchMotifs(example_pwms, dss, bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrixList and character string",{
-  mm_res <- match_motifs(example_pwms, ch, bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches), bs_res)
+test_that("Can run matchMotifs with PWMatrixList and character string",{
+  mm_res <- matchMotifs(example_pwms, ch, bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches), bs_res)
 })
 
-test_that("Can run match_pwm with PWMatrixList and DNAString",{
-  mm_res <- match_motifs(example_pwms, dss[[3]], bg = rep(0.25,4))
-  expect_equal(as.matrix(assays(mm_res)$motif_matches)[1,], bs_res[3,])
+test_that("Can run matchMotifs with PWMatrixList and DNAString",{
+  mm_res <- matchMotifs(example_pwms, dss[[3]], bg = rep(0.25,4))
+  expect_equal(as.matrix(assays(mm_res)$motifMatches)[1,], bs_res[3,])
 })
 
 
 
-test_that("Can run match_pwm with PWMatrix and peaks",{
-  mm_res <- match_motifs(example_pwms[[3]], peaks, genome = "hg19",
+test_that("Can run matchMotifs with PWMatrix and peaks",{
+  mm_res <- matchMotifs(example_pwms[[3]],
+                        peaks,
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
                          bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrix and SummarizedExperiment",{
-  mm_res <- match_motifs(example_pwms[[3]], genome = "hg19", se,
+test_that("Can run matchMotifs with PWMatrix and SummarizedExperiment",{
+  mm_res <- matchMotifs(example_pwms[[3]],
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
+                        se,
                          bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrix and DNAStringSet",{
-  mm_res <- match_motifs(example_pwms[[3]], dss, bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+test_that("Can run matchMotifs with PWMatrix and DNAStringSet",{
+  mm_res <- matchMotifs(example_pwms[[3]], dss, bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrix and character string",{
-  mm_res <- match_motifs(example_pwms[[3]], ch, bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+test_that("Can run matchMotifs with PWMatrix and character string",{
+  mm_res <- matchMotifs(example_pwms[[3]], ch, bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PWMatrix and DNAString",{
-  mm_res <- match_motifs(example_pwms[[3]], dss[[3]], bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), unname(bs_res[3,3]))
+test_that("Can run matchMotifs with PWMatrix and DNAString",{
+  mm_res <- matchMotifs(example_pwms[[3]], dss[[3]], bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), unname(bs_res[3,3]))
 })
 
 
-test_that("Can run match_pwm with PFMatrix and peaks",{
-  mm_res <- match_motifs(example_motifs[[3]], peaks, genome = "hg19", bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+test_that("Can run matchMotifs with PFMatrix and peaks",{
+  mm_res <- matchMotifs(example_motifs[[3]], peaks,
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
+                        bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrix and SummarizedExperiment",{
-  mm_res <- match_motifs(example_motifs[[3]], genome = "hg19", se, bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+test_that("Can run matchMotifs with PFMatrix and SummarizedExperiment",{
+  mm_res <- matchMotifs(example_motifs[[3]],
+                        genome = "BSgenome.Hsapiens.UCSC.hg19",
+                        se,
+                        bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrix and DNAStringSet",{
-  mm_res <- match_motifs(example_motifs[[3]], dss, bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+test_that("Can run matchMotifs with PFMatrix and DNAStringSet",{
+  mm_res <- matchMotifs(example_motifs[[3]], dss, bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrix and character string",{
-  mm_res <- match_motifs(example_motifs[[3]], ch, bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), bs_res[,3])
+test_that("Can run matchMotifs with PFMatrix and character string",{
+  mm_res <- matchMotifs(example_motifs[[3]], ch, bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), bs_res[,3])
   expect_is(mm_res, "SummarizedExperiment")
 })
 
-test_that("Can run match_pwm with PFMatrix and DNAString",{
-  mm_res <- match_motifs(example_motifs[[3]], dss[[3]], bg = rep(0.25,4))
-  expect_equal(as.vector(assays(mm_res)$motif_matches), unname(bs_res[3,3]))
+test_that("Can run matchMotifs with PFMatrix and DNAString",{
+  mm_res <- matchMotifs(example_motifs[[3]], dss[[3]], bg = rep(0.25,4))
+  expect_equal(as.vector(assays(mm_res)$motifMatches), unname(bs_res[3,3]))
 })
 
 # Output of scores ------------------------------------------------------------
 
-test_that("Can run match_pwm with output of scores",{
-    mm_res <- match_motifs(example_motifs, peaks, genome = "hg19",
+test_that("Can run matchMotifs with output of scores",{
+    mm_res <- matchMotifs(example_motifs, peaks,
+                          genome = "BSgenome.Hsapiens.UCSC.hg19",
                            bg = rep(0.25,4),
                            out = "scores")
-    expect_equal(as.matrix(assays(mm_res)$motif_scores), bs_res_scores)
+    expect_equal(as.matrix(assays(mm_res)$motifScores), bs_res_scores)
     expect_is(mm_res, "SummarizedExperiment")
 })
 
 # Output of positions ----------------------------------------------------------
 
-test_that("Can run match_pwm with output of positions",{
-    mm_res <- match_motifs(example_motifs, peaks, genome = "hg19",
+test_that("Can run matchMotifs with output of positions",{
+    mm_res <- matchMotifs(example_motifs, peaks, genome = "BSgenome.Hsapiens.UCSC.hg19",
                            bg = rep(0.25,4),
                            out = "positions")
     expect_equal(do.call(c,lapply(mm_res, start)),
@@ -272,8 +300,8 @@ test_that("Can run match_pwm with output of positions",{
     expect_is(mm_res, "GRangesList")
 })
 
-test_that("Can run match_pwm with output of positions and no ranges",{
-    mm_res <- match_motifs(example_motifs, ch, bg = rep(0.25,4),
+test_that("Can run matchMotifs with output of positions and no ranges",{
+    mm_res <- matchMotifs(example_motifs, ch, bg = rep(0.25,4),
                            out = "positions")
     expect_is(mm_res, "list")
     expect_is(mm_res[[1]], "IRangesList")
@@ -283,12 +311,12 @@ test_that("Can run match_pwm with output of positions and no ranges",{
 # Accessors --------------------------------------------------------------------
 
 test_that("Accessors work",{
-    test_obj <- SummarizedExperiment::SummarizedExperiment(assays = list(motif_matches = bs_res,
-                                                                         motif_scores = bs_res_scores,
-                                                                         motif_counts = bs_res_counts))
-    expect_equal(motif_matches(test_obj), bs_res)
-    expect_equal(motif_scores(test_obj), bs_res_scores)
-    expect_equal(motif_counts(test_obj), bs_res_counts)
+    test_obj <- SummarizedExperiment::SummarizedExperiment(assays = list(motifMatches = bs_res,
+                                                                         motifScores = bs_res_scores,
+                                                                         motifCounts = bs_res_counts))
+    expect_equal(motifMatches(test_obj), bs_res)
+    expect_equal(motifScores(test_obj), bs_res_scores)
+    expect_equal(motifCounts(test_obj), bs_res_counts)
 })
 
 

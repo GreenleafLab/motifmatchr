@@ -1,3 +1,8 @@
+# motifmatchr 0.99.7
+
+API changed from snake_case to camelCase. snake_case versions of methods
+kept with deprecation notice.
+
 # motifmatchr 0.99.6
 
 Genome no longer defaults to hg19 when subject is GenomicRanges or

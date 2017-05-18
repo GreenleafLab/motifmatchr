@@ -1,4 +1,5 @@
-#' motif_matches
+
+#' motifMatches
 #'
 #' get motif matches from SummarizedExperiment object
 #' @param object SummarizedExperiment object with matches assay
@@ -15,22 +16,29 @@
 #'                                           width = 500))
 #'
 #' # Get motif matches for example motifs
-#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19")
+#' motif_ix <- matchMotifs(example_motifs, peaks,
+#'                         genome = "BSgenome.Hsapiens.UCSC.hg19")
 #'
-#' motif_matches(motif_ix)
-setGeneric("motif_matches", function(object) standardGeneric("motif_matches"))
+#' motifMatches(motif_ix)
+setGeneric("motifMatches", function(object) standardGeneric("motifMatches"))
 
-#' @describeIn motif_matches method for SummarizedExperiment
+#' @describeIn motifMatches method for SummarizedExperiment
 #' @export
-setMethod("motif_matches", c(object = "SummarizedExperiment"),
+setMethod("motifMatches", c(object = "SummarizedExperiment"),
           function(object) {
-              if ("motif_matches" %ni% assayNames(object))
-                  stop("No motif_matches in this object")
-              assays(object)$motif_matches
+              if ("motifMatches" %ni% assayNames(object)){
+                  if ("motif_matches" %in% assayNames(object)){
+                      warning("motif_matches assay name deprecated",
+                              "motifmatchr now using motifMatches")
+                      return(assays(object)$motif_matches)
+                  }
+                  stop("No motifMatches in this object")
+              }
+              assays(object)$motifMatches
           })
 
 
-#' motif_scores
+#' motifScores
 #'
 #' get motif scores from SummarizedExperiment object
 #' @param object SummarizedExperiment object with scores assay
@@ -47,22 +55,29 @@ setMethod("motif_matches", c(object = "SummarizedExperiment"),
 #'                                           width = 500))
 #'
 #' # Get motif matches for example motifs
-#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
+#' motif_ix <- matchMotifs(example_motifs, peaks,
+#'                          genome = "BSgenome.Hsapiens.UCSC.hg19",
 #'                          out = "scores")
 #'
-#' motif_scores(motif_ix)
-setGeneric("motif_scores", function(object) standardGeneric("motif_scores"))
+#' motifScores(motif_ix)
+setGeneric("motifScores", function(object) standardGeneric("motifScores"))
 
-#' @describeIn motif_scores method for SummarizedExperiment
+#' @describeIn motifScores method for SummarizedExperiment
 #' @export
-setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
-    if ("motif_scores" %ni% assayNames(object))
-        stop("No motif_scores in this object")
-    assays(object)$motif_scores
+setMethod("motifScores", c(object = "SummarizedExperiment"), function(object) {
+    if ("motifScores" %ni% assayNames(object)){
+        if ("motif_scores" %in% assayNames(object)){
+            warning("motif_scores assay name deprecated",
+                    "motifmatchr now using motifScores")
+            return(assays(object)$motif_scores)
+        }
+        stop("No motifScores in this object")
+    }
+    assays(object)$motifScores
 })
 
 
-#' motif_counts
+#' motifCounts
 #'
 #' get motif counts from SummarizedExperiment object
 #' @param object SummarizedExperiment object with counts assay
@@ -79,21 +94,28 @@ setMethod("motif_scores", c(object = "SummarizedExperiment"), function(object) {
 #'                                           width = 500))
 #'
 #' # Get motif matches for example motifs
-#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19",
+#' motif_ix <- matchMotifs(example_motifs, peaks,
+#'                          genome = "BSgenome.Hsapiens.UCSC.hg19",
 #'                          out = "scores")
 #'
-#' motif_counts(motif_ix)
-setGeneric("motif_counts", function(object) standardGeneric("motif_counts"))
+#' motifCounts(motif_ix)
+setGeneric("motifCounts", function(object) standardGeneric("motifCounts"))
 
-#' @describeIn motif_counts method for SummarizedExperiment
+#' @describeIn motifCounts method for SummarizedExperiment
 #' @export
-setMethod("motif_counts", c(object = "SummarizedExperiment"), function(object) {
-    if ("motif_counts" %ni% assayNames(object))
-        stop("No motif_counts in this object")
-    assays(object)$motif_counts
+setMethod("motifCounts", c(object = "SummarizedExperiment"), function(object) {
+    if ("motifCounts" %ni% assayNames(object)){
+        if ("motif_counts" %in% assayNames(object)){
+            warning("motif_counts assay name deprecated",
+                    "motifmatchr now using motifCounts")
+            return(assays(object)$motif_counts)
+        }
+        stop("No motifCounts in this object")
+    }
+    assays(object)$motifCounts
 })
 
-match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
+matchMotifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 
     motif_mats <- convert_pwms(pwms, bg)
 
@@ -101,37 +123,33 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
         tmp_out <- get_motif_ix(motif_mats, seqs, bg, p.cutoff, w)
         if (is.null(ranges)) {
             out <- SummarizedExperiment(assays =
-                                            list(motif_matches = as(tmp_out,
+                                            list(motifMatches = as(tmp_out,
                                                               "lMatrix")),
                                         colData =
-                                            DataFrame(pwm = pwms,
-                                                      name = name(pwms),
+                                            DataFrame(name = name(pwms),
                                                       row.names = names(pwms)))
         } else {
             out <- SummarizedExperiment(assays =
-                                            list(motif_matches = as(tmp_out,
+                                            list(motifMatches = as(tmp_out,
                                                               "lMatrix")),
                                         rowRanges = ranges,
                                         colData =
-                                            DataFrame(pwm = pwms,
-                                                      name = name(pwms),
+                                            DataFrame(name = name(pwms),
                                                       row.names = names(pwms)))
         }
     } else if (out == "scores") {
         tmp_out <- get_motif_ix_plus(motif_mats, seqs, bg, p.cutoff, w)
-        tmp_out$motif_matches <- as(tmp_out$motif_matches, "lMatrix")
+        tmp_out$motifMatches <- as(tmp_out$motifMatches, "lMatrix")
         if (is.null(ranges)) {
             out <- SummarizedExperiment(assays = tmp_out,
                                         colData =
-                                            DataFrame(pwm = pwms,
-                                                      name = name(pwms),
+                                            DataFrame(name = name(pwms),
                                                       row.names = names(pwms)))
         } else {
             out <- SummarizedExperiment(assays = tmp_out,
                                         rowRanges = ranges,
                                         colData =
-                                            DataFrame(pwm = pwms,
-                                                      name = name(pwms),
+                                            DataFrame(name = name(pwms),
                                                       row.names = names(pwms)))
         }
     } else {
@@ -170,7 +188,7 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 
 
 
-#' match_motifs
+#' matchMotifs
 #'
 #' Find motif matches
 #' @param pwms either \code{\link[TFBSTools]{PFMatrix}},
@@ -220,14 +238,14 @@ match_motifs_helper <- function(pwms, seqs, bg, p.cutoff, w, out, ranges) {
 #'                                           width = 500))
 #'
 #' # Get motif matches for example motifs
-#' motif_ix <- match_motifs(example_motifs, peaks, genome = "hg19")
+#' motif_ix <- matchMotifs(example_motifs, peaks, genome = "BSgenome.Hsapiens.UCSC.hg19")
 #'
-setGeneric("match_motifs",
-           function(pwms, subject, ...) standardGeneric("match_motifs"))
+setGeneric("matchMotifs",
+           function(pwms, subject, ...) standardGeneric("matchMotifs"))
 
-#' @describeIn match_motifs PWMatrixList/DNAStringSet
+#' @describeIn matchMotifs PWMatrixList/DNAStringSet
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrixList",
+setMethod("matchMotifs", signature(pwms = "PWMatrixList",
                                     subject = "DNAStringSet"),
           function(pwms,
                    subject,
@@ -246,12 +264,12 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
 
               seqs <- as.character(subject)
 
-              match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
+              matchMotifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
           })
 
-#' @describeIn match_motifs PWMatrixList/character
+#' @describeIn matchMotifs PWMatrixList/character
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrixList",
+setMethod("matchMotifs", signature(pwms = "PWMatrixList",
                                     subject = "character"),
           function(pwms,
                    subject,
@@ -269,12 +287,12 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
                   bg <- get_bg(bg_method, subject, genome)
               }
 
-              match_motifs_helper(pwms, subject, bg, p.cutoff, w, out, ranges)
+              matchMotifs_helper(pwms, subject, bg, p.cutoff, w, out, ranges)
           })
 
-#' @describeIn match_motifs PWMatrixList/DNAString
+#' @describeIn matchMotifs PWMatrixList/DNAString
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrixList",
+setMethod("matchMotifs", signature(pwms = "PWMatrixList",
                                     subject = "DNAString"),
           function(pwms,
                    subject,
@@ -294,12 +312,12 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
 
               seqs <- as.character(subject)
 
-              match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
+              matchMotifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
           })
 
-#' @describeIn match_motifs PWMatrixList/GenomicRanges
+#' @describeIn matchMotifs PWMatrixList/GenomicRanges
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrixList",
+setMethod("matchMotifs", signature(pwms = "PWMatrixList",
                                     subject = "GenomicRanges"),
           function(pwms,
                    subject,
@@ -321,12 +339,12 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
 
               seqs <- as.character(seqs)
 
-              match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, subject)
+              matchMotifs_helper(pwms, seqs, bg, p.cutoff, w, out, subject)
           })
 
-#' @describeIn match_motifs PWMatrixList/RangedSummarizedExperiment
+#' @describeIn matchMotifs PWMatrixList/RangedSummarizedExperiment
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrixList",
+setMethod("matchMotifs", signature(pwms = "PWMatrixList",
                                     subject = "RangedSummarizedExperiment"),
           function(pwms, subject,
                    genome = GenomeInfoDb::genome(subject),
@@ -334,7 +352,7 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
                    out = c("matches", "scores", "positions"),
                    p.cutoff = 5e-05, w = 7) {
               out <- match.arg(out)
-              match_motifs(pwms, rowRanges(subject),
+              matchMotifs(pwms, rowRanges(subject),
                            genome = genome,
                            bg = bg,
                            out = out,
@@ -342,9 +360,9 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
                            w = w)
           })
 
-#' @describeIn match_motifs PWMatrixList/BSGenomeViews
+#' @describeIn matchMotifs PWMatrixList/BSGenomeViews
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrixList",
+setMethod("matchMotifs", signature(pwms = "PWMatrixList",
                                     subject = "BSgenomeViews"),
           function(pwms,
                    subject,
@@ -365,37 +383,37 @@ setMethod("match_motifs", signature(pwms = "PWMatrixList",
 
               seqs <- as.character(subject)
 
-              match_motifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
+              matchMotifs_helper(pwms, seqs, bg, p.cutoff, w, out, ranges)
           })
 
 ### PFMatrixList ---------------------------------------------------------------
 
 
-#' @describeIn match_motifs PFMatrixList/ANY
+#' @describeIn matchMotifs PFMatrixList/ANY
 #' @export
-setMethod("match_motifs", signature(pwms = "PFMatrixList", subject = "ANY"),
+setMethod("matchMotifs", signature(pwms = "PFMatrixList", subject = "ANY"),
           function(pwms,
                    subject,
                    ...) {
 
 
               pwms_list <- do.call(PWMatrixList, lapply(pwms, toPWM))
-              match_motifs(pwms_list,
+              matchMotifs(pwms_list,
                            subject,
                            ...)
           })
 
 # Single PWM input -------------------------------------------------------------
 
-#' @describeIn match_motifs PWMatrix/ANY
+#' @describeIn matchMotifs PWMatrix/ANY
 #' @export
-setMethod("match_motifs", signature(pwms = "PWMatrix", subject = "ANY"),
+setMethod("matchMotifs", signature(pwms = "PWMatrix", subject = "ANY"),
           function(pwms,
                    subject,
                    ...) {
 
               pwms_list <- PWMatrixList(pwms)
-              match_motifs(pwms_list,
+              matchMotifs(pwms_list,
                            subject,
                            ...)
           })
@@ -403,16 +421,16 @@ setMethod("match_motifs", signature(pwms = "PWMatrix", subject = "ANY"),
 
 # Single PFM -------------------------------------------------------------------
 
-#' @describeIn match_motifs PFMatrix/ANY
+#' @describeIn matchMotifs PFMatrix/ANY
 #' @export
-setMethod("match_motifs",
+setMethod("matchMotifs",
           signature(pwms = "PFMatrix", subject = "ANY"),
           function(pwms,
                    subject,
                    ...) {
 
               pwms_list <- PWMatrixList(toPWM(pwms))
-              match_motifs(pwms_list,
+              matchMotifs(pwms_list,
                            subject,
                            ...)
           })

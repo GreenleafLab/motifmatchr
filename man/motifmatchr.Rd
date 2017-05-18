@@ -13,7 +13,7 @@ motifs to find which sequences contain which motifs.
 motifmatchr uses the MOODS C++ library (developedby Pasi Rastas,
 Janne Korhonen, and Petri Martinmaki) internally for motif matching.
 
-The primary method of motifmatchr is \code{\link{match_motifs}}, which takes
+The primary method of motifmatchr is \code{\link{matchMotifs}}, which takes
 in motif PWMs/PFMs and genomic ranges or sequences and returns either which
 ranges/sequences match which motifs or the positions of the matches.
 
