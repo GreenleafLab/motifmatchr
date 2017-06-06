@@ -1,0 +1,33 @@
+authors:
+  Alicia Schep:
+    href: http://www.aliciaschep.com
+
+templates:
+  params:
+    bootswatch: cerulean
+
+reference:
+  - title: matchMotifs
+    desc:  Main function to match motifs
+    contents:
+    - matchMotifs
+  - title: Accessors
+    desc: Accessor functions for results
+    contents:
+    - motifMatches
+    - motifScores
+    - motifCounts
+  - title: Data
+    desc: Some sample motifs
+    contents:
+    - example_motifs
+
+navbar:
+  left:
+  - text: Vignette
+    href: articles/motifmatchr.html
+  - text: Reference
+    href: reference/index.html
+  - text: GitHub
+    icon: fa-github
+    href: https://github.com/GreenleafLab/motifmatchr/

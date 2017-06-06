@@ -1,0 +1,187 @@
+---
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{motifmatchr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# motifmatchr
+
+The motifmatchr package is designed for analyzing many sequences and many motifs to find which sequences contain which motifs. It uses the MOODS C++ library (developedby Pasi Rastas, Janne Korhonen, and Petri Martinmaki) internally for motif matching.  The primary method of motifmatchr is `matchMotifs`, which takes in motif PWMs/PFMs and genomic ranges or sequences and returns either which ranges/sequences match which motifs or the positions of the matches.  
+
+Compared with alternative motif matching functions available in Bioconductor (e.g. matchPWM in Biostrings or searchSeq in TFBSTools), motifmatchr is designed specifically for the use case of determining whether many different sequences/ranges contain many different motifs. For example, when analyzing ChIP-seq or ATAC-seq data one might want to find what motifs in a collection of motifs like the JASPAR database are found in what peaks. 
+
+## Quickstart
+
+Example use case of motifmatchr with a set of peaks and a few motifs. For additional options for inputs & outputs, see remainder of vignette.
+
+```{r, message = FALSE}
+library(motifmatchr)
+library(GenomicRanges)
+library(SummarizedExperiment)
+library(BSgenome)
+
+# load some example motifs
+data(example_motifs, package = "motifmatchr") 
+
+# Make a set of peaks
+peaks <- GRanges(seqnames = c("chr1","chr2","chr2"),
+                 ranges = IRanges(start = c(76585873,42772928,100183786),
+                                  width = 500))
+
+# Get motif matches for example motifs in peaks 
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19") 
+motifMatches(motif_ix) # Extract matches matrix from result
+
+# Get motif positions within peaks for example motifs in peaks 
+motif_pos <- matchMotifs(example_motifs, peaks, genome = "hg19", 
+                         out = "positions") 
+```
+
+# Inputs
+
+This method has two mandatory arguments:
+
+1) Position weight matrices or position frequency matrices, stored in the PWMatrix, PFMatrix, PWMatrixList, or PFMatrixList objects from the TFBSTools package
+
+2) Either a set of genomic ranges (GenomicRanges or RangedSummarizedExperiment object) or a set of sequences (either DNAStringSet, DNAString, or simple character vector)
+
+If the second argument is a set of genomic ranges, a genome sequence is also required. By default [BSgenome.Hsapiens.UCSC.hg19](https://bioconductor.org/packages/release/data/annotation/html/BSgenome.Hsapiens.UCSC.hg19.html) is used &mdash; you will have to have installed BSgenome.Hsapiens.UCSC.hg19. If using another genome build, either the appropraiate BSgenome object for your species or a DNAStringSet or FaFile object for your species should be passed to the `genome` argument.
+
+```{r}
+# using peaks
+motif_ix_peaks <- matchMotifs(example_motifs, peaks, genome = "hg19") 
+
+# using SummarizedExperiment
+example_SummarizedExperiment <- 
+    SummarizedExperiment(assays = list(counts = matrix(1,
+                                                       ncol = 4,
+                                                       nrow = 3)),
+                         rowRanges = peaks)
+
+motif_ix_SummarizedExperiment <- matchMotifs(example_motifs,
+                                              example_SummarizedExperiment, 
+                                              genome = "hg19") 
+
+all.equal(motifMatches(motif_ix_peaks),
+          motifMatches(motif_ix_SummarizedExperiment))
+```
+
+```{r, message = FALSE}
+# using BSgenomeViews
+
+example_BSgenomeViews <- BSgenomeViews(BSgenome.Hsapiens.UCSC.hg19, peaks)
+
+motif_ix_BSgenomeViews <- matchMotifs(example_motifs, example_BSgenomeViews) 
+
+
+all.equal(motifMatches(motif_ix_peaks), motifMatches(motif_ix_BSgenomeViews))
+```
+
+
+```{r, message = FALSE}
+# using DNAStringSet
+library(Biostrings)
+library(BSgenome.Hsapiens.UCSC.hg19)
+
+example_DNAStringSet <- getSeq(BSgenome.Hsapiens.UCSC.hg19, peaks)
+
+motif_ix_DNAStringSet <- matchMotifs(example_motifs, example_DNAStringSet) 
+
+all.equal(motifMatches(motif_ix_peaks), motifMatches(motif_ix_DNAStringSet))
+```
+
+
+```{r, message = FALSE}
+# using character vector
+example_character <- as.character(example_DNAStringSet)
+
+motif_ix_character <- matchMotifs(example_motifs, example_character) 
+
+
+all.equal(motifMatches(motif_ix_peaks), motifMatches(motif_ix_character))
+```
+
+
+## Options
+
+### Background nucleotide frequencies
+
+In determining motif matches, background nucleotide frequencies are used.  By default the background frequencies are the nucleotide frequencies within the input sequence -- to use alternate frequencies, supply the `bg` arument to `match_pwms`.  If the input sequences are fairly short (as in our vignette example!), it probably makes sense to use other input frequencies.  Here we show how to use even frequencies:
+
+```{r}
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19", bg = "even") 
+```
+
+We can also choose to use the frequency from the genome.  In this case:
+
+```{r}
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19", bg = "genome") 
+```
+
+A genome must be specified if using `bg = "genome"`!
+
+
+To specify frequencies per base pair, the order should be "A","C","G", then "T", or those nucleotides should be used as names in the vector.
+
+```{r}
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19",
+                         bg = c("A" = 0.2,"C" = 0.3, "G" = 0.3, "T" = 0.2)) 
+```
+
+PWMatrix objects have associated background frequencies that can be accessed using the `bg` function. If the supplied background frequencies to `match_pwms` do not match the frequencies in the input PWM, then the PWM is adjusted to refect the supplied background frequencies. The calculated score is based on this adjusted PWM and not the direct input PWM. To ensure the score is computed using the exact PWM input, simply make sure the background frequencies passed to matchMotifs match hose used for the input PWM and stored in bg slot of PWMatrix object.
+
+### Log base and pseudocounts
+
+motifmatchr expects input PWMs to use either natural logarithm or log 2. If the input is a PFM, the TFBSTools toPWM is used for making the PWM with the default psueodcounts of 0.8 and base 2 logarithm. For more control of the pseudocounts, simply use the toPWM function to convert your PFMs prior to calling matchMotifs. 
+
+```{r, message = FALSE}
+library(TFBSTools)
+example_pwms <- do.call(PWMatrixList,lapply(example_motifs, toPWM, 
+                                            pseudocounts = 0.5))
+```
+
+### P value
+
+The default p-value cutoff is 0.00005. No adjustment for multiple comparisons is made in this p-value cutoff. This p-value threshold is used to determine a score threshold. 
+# Outputs
+
+The matchMotifs can return three possible outputs, depending on the `out` argument:
+
+1) (Default, with `out = matches`) Boolean matrix indicating which ranges/sequences contain which motifs, stored as `motifMatches` in assays slot of SummarizedExperiment object. The `motifMatches` methods can be used to extract the boolean matrix. If either the `subject` argument is a GenomicRanges or RangedSummarizedExperiment object OR a `ranges` argument is provided, then a RangedSummarizedExeriment is returned rather than a SummarizedExperiment.  
+
+2) (out = `scores`) Same as (1) plus two additional assays -- a matrix with the score of the high motif score within each range/sequence (score only reported if match present) and a matrix with the number of motif matches. The `motifScores` and `motifCounts` methods can be used to access these components.
+
+3) (out = `positions`) A GenomicRangesList with the ranges of all matches within the input ranges/sequences. Note that if the `subject` argument is a character vector, DNAStringSet, or DNAString and a `ranges` argument corresponding to the ranges represented by the sequences is NOT provided, then a list of IRangesList objects will be returned instead with the relative positions withing the sequences.
+
+
+```{r}
+motif_ix <- matchMotifs(example_motifs, peaks, genome = "hg19") 
+print(motif_ix)
+head(motifMatches(motif_ix))
+
+motif_ix_scores <- matchMotifs(example_motifs, peaks, 
+                                genome = "hg19", out = "scores")
+print(motif_ix_scores)
+head(motifMatches(motif_ix_scores))
+head(motifScores(motif_ix_scores))
+head(motifCounts(motif_ix_scores))
+
+motif_pos <- matchMotifs(example_motifs, peaks, genome = "hg19", 
+                          out = "positions") 
+print(motif_pos)
+```
+
+## Session Info
+
+```{r}
+Sys.Date()
+```
+
+```{r}
+sessionInfo()
+```
+
+
+

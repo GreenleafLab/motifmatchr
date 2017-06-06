@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^docs$
+^_pkgdown.yml$
+^.travis.yml$
+^README.md$
+^.RData$
+^.Rhistory$

@@ -1,0 +1,15 @@
+CXX_STD = CXX11
+PKG_CPPFLAGS=-I. -I./MOODS/
+
+OBJECTS=\
+./RcppExports.o \
+./r_interface.o \
+./MOODS/scanner.o \
+./MOODS/motif_h.o \
+./MOODS/motif_0.o \
+./MOODS/moods_tools.o \
+./MOODS/moods_scan.o \
+./MOODS/moods_parsers.o \
+./MOODS/moods_misc.o \
+./MOODS/match_types.o \
+./motifmatchr_init.o
