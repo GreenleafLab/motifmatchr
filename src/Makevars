@@ -11,5 +11,4 @@ OBJECTS=\
 ./MOODS/moods_scan.o \
 ./MOODS/moods_parsers.o \
 ./MOODS/moods_misc.o \
-./MOODS/match_types.o \
-./motifmatchr_init.o
+./MOODS/match_types.o 

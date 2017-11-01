@@ -2,18 +2,18 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 get_thresholds <- function(mats, nuc_freqs, p) {
-    .Call('motifmatchr_get_thresholds', PACKAGE = 'motifmatchr', mats, nuc_freqs, p)
+    .Call(`_motifmatchr_get_thresholds`, mats, nuc_freqs, p)
 }
 
 get_motif_ix <- function(mats, x, nuc_freqs, p, w) {
-    .Call('motifmatchr_get_motif_ix', PACKAGE = 'motifmatchr', mats, x, nuc_freqs, p, w)
+    .Call(`_motifmatchr_get_motif_ix`, mats, x, nuc_freqs, p, w)
 }
 
 get_motif_ix_plus <- function(mats, x, nuc_freqs, p, w) {
-    .Call('motifmatchr_get_motif_ix_plus', PACKAGE = 'motifmatchr', mats, x, nuc_freqs, p, w)
+    .Call(`_motifmatchr_get_motif_ix_plus`, mats, x, nuc_freqs, p, w)
 }
 
 get_motif_positions <- function(mats, x, nuc_freqs, p, w) {
-    .Call('motifmatchr_get_motif_positions', PACKAGE = 'motifmatchr', mats, x, nuc_freqs, p, w)
+    .Call(`_motifmatchr_get_motif_positions`, mats, x, nuc_freqs, p, w)
 }
 
