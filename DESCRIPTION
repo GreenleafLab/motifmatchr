@@ -1,7 +1,7 @@
 Package: motifmatchr
 Type: Package
 Title: Fast Motif Matching in R
-Version: 1.0.0
+Version: 1.0.1
 Date: 2017-03-08
 Authors@R: c( person("Alicia", "Schep", email = "aschep@gmail.com",
         role = c("aut","cre")), person("Stanford University", role =

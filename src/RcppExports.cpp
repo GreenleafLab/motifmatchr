@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // get_thresholds
 std::vector<double> get_thresholds(List mats, const std::vector<double> nuc_freqs, const double p);
-RcppExport SEXP motifmatchr_get_thresholds(SEXP matsSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP) {
+RcppExport SEXP _motifmatchr_get_thresholds(SEXP matsSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,7 +21,7 @@ END_RCPP
 }
 // get_motif_ix
 arma::sp_mat get_motif_ix(List mats, const std::vector<std::string> x, const std::vector<double> nuc_freqs, const double p, const size_t w);
-RcppExport SEXP motifmatchr_get_motif_ix(SEXP matsSEXP, SEXP xSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP, SEXP wSEXP) {
+RcppExport SEXP _motifmatchr_get_motif_ix(SEXP matsSEXP, SEXP xSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -36,7 +36,7 @@ END_RCPP
 }
 // get_motif_ix_plus
 List get_motif_ix_plus(List& mats, const std::vector<std::string> x, const std::vector<double> nuc_freqs, const double p, const size_t w);
-RcppExport SEXP motifmatchr_get_motif_ix_plus(SEXP matsSEXP, SEXP xSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP, SEXP wSEXP) {
+RcppExport SEXP _motifmatchr_get_motif_ix_plus(SEXP matsSEXP, SEXP xSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -51,7 +51,7 @@ END_RCPP
 }
 // get_motif_positions
 List get_motif_positions(List& mats, const std::vector<std::string> x, const std::vector<double> nuc_freqs, const double p, const size_t w);
-RcppExport SEXP motifmatchr_get_motif_positions(SEXP matsSEXP, SEXP xSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP, SEXP wSEXP) {
+RcppExport SEXP _motifmatchr_get_motif_positions(SEXP matsSEXP, SEXP xSEXP, SEXP nuc_freqsSEXP, SEXP pSEXP, SEXP wSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -63,4 +63,17 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(get_motif_positions(mats, x, nuc_freqs, p, w));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_motifmatchr_get_thresholds", (DL_FUNC) &_motifmatchr_get_thresholds, 3},
+    {"_motifmatchr_get_motif_ix", (DL_FUNC) &_motifmatchr_get_motif_ix, 5},
+    {"_motifmatchr_get_motif_ix_plus", (DL_FUNC) &_motifmatchr_get_motif_ix_plus, 5},
+    {"_motifmatchr_get_motif_positions", (DL_FUNC) &_motifmatchr_get_motif_positions, 5},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_motifmatchr(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
