@@ -212,7 +212,7 @@ pwmType <- function(pwm) {
                                              byrow = FALSE,
                                              ncol = length(pwm),
                                              nrow = 4)),
-                              rep(1, length(pwm)), tolerance = 10^-5,
+                              rep(1, length(pwm)), tolerance = 10^-2,
                               check.attributes = FALSE))) {
     return("log2")
   } else if (isTRUE(all.equal(colSums(exp(as.matrix(pwm)) *
@@ -220,7 +220,7 @@ pwmType <- function(pwm) {
                                              byrow = FALSE,
                                              ncol = length(pwm),
                                              nrow = 4)),
-                              rep(1, length(pwm)), tolerance = 10^-5,
+                              rep(1, length(pwm)), tolerance = 10^-2,
                               check.attributes = FALSE))) {
     return("log")
   } else {
