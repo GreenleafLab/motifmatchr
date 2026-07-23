@@ -19,7 +19,7 @@ Depends: R (>= 3.3)
 Suggests: testthat, knitr, rmarkdown, BSgenome.Hsapiens.UCSC.hg19
 biocViews: MotifAnnotation
 LinkingTo: Rcpp, RcppArmadillo
-SystemRequirements: C++11
+SystemRequirements: C++14
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 Encoding: UTF-8
