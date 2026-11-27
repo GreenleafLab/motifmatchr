@@ -119,23 +119,33 @@ convert_pwms <- function(pwms, bg_freqs) {
     lapply(pwms, convert_pwm, bg_freqs)
 }
 
+# A log-odds PWM stores W = log(p / bg(pwm)). To rescore against bg_freqs we
+# want log(p / bg_freqs) = W + log(bg(pwm)) - log(bg_freqs).
+# Frequency matrices are converted to log2 odds, matching the default output
+# of TFBSTools::toPWM; log-odds matrices keep the log base they were given in.
 convert_pwm <- function(pwm, bg_freqs) {
     type <- pwmType(pwm)
-    out <- as.matrix(pwm)
-    if (type == "prob") {
+    if (type == "frequency") {
         norm_mat <- matrix(bg_freqs, nrow = 4, ncol = length(pwm),
                            byrow = FALSE)
-        out <- log(as.matrix(pwm)/norm_mat)
+        out <- log2(as.matrix(pwm) / norm_mat)
     } else if (type == "log2") {
         norm_mat <- matrix(log2(bg(pwm)) - log2(bg_freqs), nrow = 4,
                            ncol = length(pwm),
                            byrow = FALSE)
-        out <- as.matrix(pwm) - norm_mat
+        out <- as.matrix(pwm) + norm_mat
     } else if (type == "log") {
         norm_mat <- matrix(log(bg(pwm)) - log(bg_freqs), nrow = 4,
                            ncol = length(pwm),
                            byrow = FALSE)
-        out <- as.matrix(pwm) - norm_mat
+        out <- as.matrix(pwm) + norm_mat
+    }
+    # Non-finite scores (e.g. from zero probabilities) crash MOODS
+    if (!all(is.finite(out))) {
+        stop("PWM '", name(pwm), "' contains zero probabilities or ",
+             "non-finite scores. Add pseudocounts before matching, e.g. ",
+             "create the PWM with TFBSTools::toPWM(pfm, pseudocounts = 0.8).",
+             call. = FALSE)
     }
     return(out)
 }
