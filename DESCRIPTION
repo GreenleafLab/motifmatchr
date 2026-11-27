@@ -15,11 +15,10 @@ License: GPL-3 + file LICENSE
 Imports: Matrix, Rcpp, methods, TFBSTools, Biostrings, BSgenome,
         S4Vectors, SummarizedExperiment, GenomicRanges, IRanges,
         Rsamtools, Seqinfo
-Depends: R (>= 3.3)
+Depends: R (>= 4.3)
 Suggests: testthat, knitr, rmarkdown, BSgenome.Hsapiens.UCSC.hg19
 biocViews: MotifAnnotation
 LinkingTo: Rcpp, RcppArmadillo
-SystemRequirements: C++14
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 Encoding: UTF-8
